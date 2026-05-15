@@ -54,11 +54,47 @@ PY
   fail "node or python3 is required to parse plugin.json"
 }
 
+validate_default_prompt() {
+  local file="$1"
+
+  if command -v node >/dev/null 2>&1; then
+    node -e "
+const fs = require('fs');
+const data = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
+const prompts = data.interface && data.interface.defaultPrompt;
+if (!Array.isArray(prompts) || prompts.length === 0) process.exit(2);
+if (!prompts.every((prompt) => typeof prompt === 'string' && prompt.length > 0)) process.exit(2);
+" "$file"
+    return
+  fi
+
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$file" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as handle:
+    data = json.load(handle)
+
+prompts = data.get("interface", {}).get("defaultPrompt")
+if not isinstance(prompts, list) or not prompts:
+    raise SystemExit(2)
+
+if not all(isinstance(prompt, str) and prompt for prompt in prompts):
+    raise SystemExit(2)
+PY
+    return
+  fi
+
+  fail "node or python3 is required to parse plugin.json"
+}
+
 PLUGIN_JSON=".codex-plugin/plugin.json"
 require_file "$PLUGIN_JSON"
 
 skills_path="$(json_value "$PLUGIN_JSON" "skills")" || fail "invalid JSON or missing string field: skills"
 [[ "$skills_path" == "./skills/" ]] || fail "plugin.json skills must be ./skills/"
+validate_default_prompt "$PLUGIN_JSON" || fail "plugin.json interface.defaultPrompt must be a non-empty string array"
 
 skills=(
   "easy-prd-testing"

@@ -21,6 +21,10 @@
       "Read",
       "Write"
     ],
-    "defaultPrompt": "Use PRD documents, prototype images, or confirmed testing artifacts to run the Easy PRD Testing workflow. Start with clarification, generate 01-04 planning documents, require explicit confirmation, confirm execution prerequisites step by step, then execute and aggregate evidence."
+    "defaultPrompt": [
+      "Use PRD documents, prototype images, or confirmed testing artifacts to run the Easy PRD Testing workflow.",
+      "Generate automation self-testing planning artifacts from a PRD or prototype.",
+      "Execute confirmed PRD testing artifacts with prerequisite gates, evidence capture, and result aggregation."
+    ]
   }
 }
