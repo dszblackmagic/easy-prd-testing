@@ -118,7 +118,8 @@ easy-prd-testing/
 
 职责：
 
-- 在 `docs/testing/<模块名>/` 下生成 `01-04` 规划资料。
+- 询问用户自动化测试结果和规划资料要放在哪个输出根目录下。
+- 在 `<输出根目录>/easy-prd-testing/testing/<模块名>/` 下生成 `01-04` 规划资料。
 - 为功能点生成 `F-xxx` 编号。
 - 为用例生成优先级、执行目录、前置条件、步骤和预期结果。
 - 生成字段基线、执行清单、测试数据与账号占位。
@@ -127,6 +128,7 @@ easy-prd-testing/
 门禁：
 
 - 必须基于 PRD/原型或经过 `prd-intake` 整理后的资料生成。
+- 必须确认输出根目录；未确认前不创建测试资料目录。
 - 不进入页面执行。
 - `01-04` 生成后，必须用户显式确认后才能进入 `execution-gate`。
 
@@ -205,6 +207,7 @@ easy-prd-testing/
 
 - 没有 PRD 或原型图，不能进入规划。
 - 缺模块名称，不能创建模块目录。
+- 未确认输出根目录，不能创建测试资料目录。
 - 存在关键口径不明确时，先逐项询问，不把推断当确认事实。
 - `01-04` 生成后必须用户显式确认。
 - 未确认测试地址、路径、登录方式、执行模式和风险授权时，不能进入执行。
@@ -212,10 +215,18 @@ easy-prd-testing/
 
 ## 6. 产物协议
 
+规划阶段必须先确认输出根目录。所有自动化测试规划资料、执行记录、缺陷记录和证据都写入该输出根目录下的固定 skill 目录：
+
+```text
+<输出根目录>/easy-prd-testing/testing/<模块名>/
+```
+
+`easy-prd-testing` 是固定目录名，用于把本 skill 生成的测试产物与其他工具或人工资料隔离。
+
 规划阶段固定生成：
 
 ```text
-docs/testing/<模块名>/
+<输出根目录>/easy-prd-testing/testing/<模块名>/
   01-模块拆解.md
   02-测试用例.md
   03-执行清单.md
@@ -225,7 +236,7 @@ docs/testing/<模块名>/
 执行阶段固定生成：
 
 ```text
-docs/testing/<模块名>/
+<输出根目录>/easy-prd-testing/testing/<模块名>/
   执行结果/
     P0/
       05-执行记录.md
@@ -330,12 +341,12 @@ P3 agent：只执行 P3，只写 执行结果/P3/
 示例：
 
 ```bash
-scripts/scaffold-testing-docs.sh "订单管理"
+scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
 ```
 
 行为：
 
-- 创建 `docs/testing/<模块名>/`。
+- 创建 `<输出根目录>/easy-prd-testing/testing/<模块名>/`。
 - 创建 `执行结果/P0` 至 `执行结果/P3`。
 - 创建每个优先级目录下的 `screenshots/`、`videos/`、`scripts/`。
 - 从模板复制 `01-04` 和各优先级 `05-06`。
@@ -376,6 +387,7 @@ scripts/scaffold-testing-docs.sh "订单管理"
 
 - 输入不足：只询问 PRD、原型图或字段基线来源，不创建模块目录。
 - 模块不明确：先询问模块名。
+- 输出目录不明确：先询问自动化测试结果和规划资料要写入哪个输出根目录。
 - 需求不明确：生成待确认问题，逐项询问。
 - 规划未确认：阻止进入执行前门禁。
 - 执行条件缺失：一次只询问一个缺失项。
@@ -389,7 +401,7 @@ scripts/scaffold-testing-docs.sh "订单管理"
 
 - `scripts/validate-plugin.sh` 能识别完整插件结构。
 - `scripts/validate-plugin.sh` 能报告缺失的关键技能、模板或文档。
-- `scripts/scaffold-testing-docs.sh "示例模块"` 能生成目录骨架。
+- `scripts/scaffold-testing-docs.sh "/tmp/easy-prd-testing-output" "示例模块"` 能生成目录骨架。
 - 脚本不会覆盖已有文件。
 - 每个 `SKILL.md` 都有触发条件、输入门禁、输出产物和停止条件。
 - 模板中的路径、编号、优先级、证据目录与产物协议一致。
@@ -402,7 +414,7 @@ scripts/scaffold-testing-docs.sh "订单管理"
 1. 仓库符合 Codex 插件标准结构。
 2. 插件入口能引导用户从 PRD 或原型图开始。
 3. 五个子技能职责明确，且每个阶段都有门禁、产物和停止条件。
-4. 规划阶段能生成 `01-04`，且必须显式确认后才能继续。
+4. 规划阶段必须先确认输出根目录，再生成 `<输出根目录>/easy-prd-testing/testing/<模块名>/01-04`，且必须显式确认后才能继续。
 5. 执行阶段必须逐步确认地址、路径、登录、账号、模式和风险授权。
 6. 多 agent 第一版按 `P0/P1/P2/P3` 分派，写入边界清楚。
 7. 汇总阶段只从优先级目录读取结果，生成根目录 `05/06`。
@@ -419,4 +431,3 @@ scripts/scaffold-testing-docs.sh "订单管理"
 - 用脚本替代 agent 的 PRD 理解、测试设计或缺陷判断。
 - 按模块、页面或用例批次的复杂多 agent 分派。
 - 自动判定真实提交类高风险动作可执行。
-
