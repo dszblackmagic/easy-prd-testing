@@ -60,6 +60,14 @@ Prefer asking about the earliest blocker:
 
 ## Output
 
-When enough information exists for planning, produce a concise intake summary and, if useful, create `00-资料分析与待确认问题.md` under the confirmed module artifact directory.
+When enough information exists for planning, produce a concise intake summary.
+
+Create `00-资料分析与待确认问题.md` only after both module name and output root directory are confirmed. The file must be placed under:
+
+```text
+<output-root>/easy-prd-testing/testing/<module-name>/
+```
+
+If the output root is not confirmed, output the intake summary in chat only and do not create files.
 
 Do not generate `01-04`; that belongs to `test-planning`.

@@ -18,18 +18,21 @@ The module artifact directory must contain readable:
 - `03-执行清单.md`
 - `04-测试数据与账号.md`
 
-Assume the user has confirmed `01-04` when this skill is invoked after the planning stage. Check file existence; do not ask whether they are confirmed again.
+The conversation or visible task state must show explicit user confirmation of `01-04`. Invocation after planning is not enough. If explicit confirmation is absent, stop and ask the user to confirm `01-04` before collecting execution prerequisites.
+
+Check file existence separately from confirmation.
 
 ## Confirmation Order
 
 Ask only the earliest missing item:
 
 1. Module artifact directory, if the `01-04` files cannot be located.
-2. Test environment address and module test path.
-3. Login mode: specified account, reuse current session, or no login.
-4. For specified account: account, password retrieval method, and permission scope.
-5. Execution mode: single agent or priority-based multi-agent.
-6. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
+2. Explicit user confirmation of `01-04`, if not observable in conversation or visible task state.
+3. Test environment address and module test path.
+4. Login mode: specified account, reuse current session, or no login.
+5. For specified account: account, password retrieval method, and permission scope.
+6. Execution mode: single agent or priority-based multi-agent.
+7. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
 
 ## Final Execution Plan
 
