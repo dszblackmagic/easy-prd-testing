@@ -1280,7 +1280,7 @@ Expected: scaffold command succeeds, `find` lists `P0` through `P3` evidence dir
 Run:
 
 ```bash
-! rg -n "docs/testing/<模块名>|docs/testing" README.md docs skills scripts
+! rg -n "docs/testing/<模块名>|docs/testing" README.md docs/workflow.md docs/artifact-contract.md docs/agent-protocol.md skills scripts
 ```
 
 Expected: command exits with status `0`, meaning the old fixed `docs/testing` contract is not present.
@@ -1290,7 +1290,7 @@ Expected: command exits with status `0`, meaning the old fixed `docs/testing` co
 Run:
 
 ```bash
-rg -n "<输出根目录>/easy-prd-testing/testing/<模块名>|<output-root>/easy-prd-testing/testing/<module-name>" README.md docs skills scripts
+rg -n "<输出根目录>/easy-prd-testing/testing/<模块名>|<output-root>/easy-prd-testing/testing/<module-name>" README.md docs/workflow.md docs/artifact-contract.md docs/agent-protocol.md skills scripts
 ```
 
 Expected: command prints at least one match from README, docs, and skills.
