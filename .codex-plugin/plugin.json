@@ -1,0 +1,26 @@
+{
+  "name": "easy-prd-testing",
+  "version": "0.1.0",
+  "description": "PRD and prototype driven automation self-testing workflow for Codex.",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "testing",
+    "automation",
+    "codex",
+    "playwright",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Easy PRD Testing",
+    "shortDescription": "Plan and execute PRD based automation tests with gates, evidence, and aggregation.",
+    "category": "Testing",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": "Use PRD documents, prototype images, or confirmed testing artifacts to run the Easy PRD Testing workflow. Start with clarification, generate 01-04 planning documents, require explicit confirmation, confirm execution prerequisites step by step, then execute and aggregate evidence."
+  }
+}
