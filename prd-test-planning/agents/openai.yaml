@@ -1,4 +1,0 @@
-interface:
-  display_name: "PRD Test Planning"
-  short_description: "Generate PRD based automation test planning assets"
-  default_prompt: "Generate module automation self-test planning documents from the PRD or prototype I provide."

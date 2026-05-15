@@ -1,4 +1,0 @@
-interface:
-  display_name: "PRD Test Execution"
-  short_description: "Execute PRD test plans with prerequisite confirmation and evidence"
-  default_prompt: "Execute automation verification from the PRD test plan. Before opening pages or tools, ask for missing prerequisites, login mode, execution mode (single agent or multi-agent), and risk authorization; then report progress and record evidence by rule."

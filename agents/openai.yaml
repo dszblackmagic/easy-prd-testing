@@ -1,4 +1,0 @@
-interface:
-  display_name: "Easy PRD Testing"
-  short_description: "Plan and execute PRD based automation self testing"
-  default_prompt: "Use the PRD, prototype, or confirmed test plan I provide to run the PRD automation testing workflow."
