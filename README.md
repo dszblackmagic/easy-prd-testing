@@ -4,6 +4,10 @@ Easy PRD Testing is a Codex plugin for PRD/prototype-driven automation self-test
 
 It guides a module from product material intake to test planning, execution prerequisite confirmation, browser-based verification, evidence capture, and final result aggregation.
 
+## Implementation Status
+
+This repository is being converted into the Codex plugin through staged commits. The plugin manifest points to the completed layout, and the repository is fully runnable after the planned skills and helper scripts tasks have landed.
+
 ## What It Provides
 
 - PRD or prototype intake with clarification questions.
@@ -26,6 +30,8 @@ The fixed `easy-prd-testing` directory keeps this plugin's artifacts separate fr
 
 ## Skills
 
+In the completed plugin layout, the plugin provides these skills:
+
 - `easy-prd-testing`: parent orchestration and task-list progress.
 - `prd-intake`: PRD/prototype analysis and clarification.
 - `test-planning`: planning documents and output directory gate.
@@ -34,6 +40,8 @@ The fixed `easy-prd-testing` directory keeps this plugin's artifacts separate fr
 - `result-aggregation`: root execution and defect summaries.
 
 ## Helper Scripts
+
+Once the helper scripts implementation is added, these commands are available.
 
 Validate the plugin:
 
