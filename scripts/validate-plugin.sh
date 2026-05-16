@@ -100,6 +100,7 @@ skills=(
   "easy-prd-testing"
   "execution-gate"
   "prd-intake"
+  "regression-testing"
   "result-aggregation"
   "test-execution"
   "test-planning"
@@ -113,6 +114,8 @@ done
 templates=(
   "skills/execution-gate/templates/执行前确认.md"
   "skills/prd-intake/templates/00-资料分析与待确认问题.md"
+  "skills/regression-testing/templates/07-回归记录.md"
+  "skills/regression-testing/templates/08-回归缺陷状态.md"
   "skills/result-aggregation/templates/05-执行记录.md"
   "skills/result-aggregation/templates/06-缺陷记录.md"
   "skills/test-execution/templates/执行结果/优先级/05-执行记录.md"
