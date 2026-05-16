@@ -48,3 +48,24 @@ Rules:
 - Field differences require screenshots.
 - Operation failures require screenshots, Console summary, Network summary, and Playwright video when available.
 - Blockers are not defects unless the user confirms they are product or implementation issues.
+
+## Regression Artifacts
+
+Regression artifacts are priority-owned and stay flat under the same priority directory:
+
+```text
+执行结果/P0/07-回归记录.md
+执行结果/P0/08-回归缺陷状态.md
+执行结果/P0/regression-screenshots/
+执行结果/P0/regression-videos/
+执行结果/P0/regression-traces/
+执行结果/P0/regression-scripts/
+```
+
+Rules:
+
+- `07-回归记录.md` records script-first regression execution.
+- `08-回归缺陷状态.md` records fixed, unfixed, blocked, script-drift, and unclear statuses.
+- `regression-traces/` stores Playwright trace zip files, DevTools trace files, HAR files, and short trace summaries.
+- Do not copy full trace or HAR content into Markdown records.
+- Do not mix first-run `screenshots/`, `videos/`, and `scripts/` with regression evidence.
