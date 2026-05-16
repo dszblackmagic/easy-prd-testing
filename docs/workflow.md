@@ -12,6 +12,18 @@ Easy PRD Testing runs as a gated workflow:
 8. Execute tests in single-agent mode or priority-based multi-agent mode.
 9. Aggregate execution records, defects, blockers, and evidence indexes.
 
+## Optional Regression Workflow
+
+After a defect is fixed or the user requests regression:
+
+1. Confirm the defect ID, test case ID, priority, or regression scope.
+2. Run existing Playwright Test scripts first.
+3. Classify failures as product issue, script drift, environment/data blocker, or unclear.
+4. Use `agent-browser` only when script output is insufficient.
+5. Use Chrome DevTools CLI or MCP only for deeper diagnosis.
+6. Write `07-回归记录.md` and `08-回归缺陷状态.md` under the owning priority directory.
+7. Re-run result aggregation to update the root summary.
+
 ## Visible Task List
 
 During the full workflow, the parent skill keeps a user-visible task list with these statuses:

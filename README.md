@@ -15,6 +15,7 @@ This repository is being converted into the Codex plugin through staged commits.
 - Execution gates for environment URL, test path, login mode, account handling, execution mode, and risk authorization.
 - Single-agent execution or priority-based multi-agent execution.
 - Execution artifacts: priority-level `05-执行记录.md` and `06-缺陷记录.md`, plus root summary files.
+- Optional regression workflow using Playwright Test first, then `agent-browser`, Chrome DevTools CLI, and MCP only when needed.
 - Visible task-list progress during the full workflow.
 - Lightweight scripts for plugin validation and testing artifact scaffolding.
 
@@ -37,6 +38,7 @@ In the completed plugin layout, the plugin provides these skills:
 - `test-planning`: planning documents and output directory gate.
 - `execution-gate`: execution prerequisite confirmation.
 - `test-execution`: page verification and evidence capture.
+- `regression-testing`: script-first defect-fix regression verification with optional `agent-browser` recheck and DevTools diagnostics.
 - `result-aggregation`: root execution and defect summaries.
 
 ## Helper Scripts

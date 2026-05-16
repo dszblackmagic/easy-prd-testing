@@ -16,6 +16,7 @@ This is the parent entry point for the Easy PRD Testing plugin. It determines th
 - Execution prerequisite confirmation: use `execution-gate`.
 - Browser verification, field comparison, evidence capture, or priority execution: use `test-execution`.
 - Root execution or defect summary generation: use `result-aggregation`.
+- Defect fix verification, rerun after bug fix, regression script execution, or regression status update: use `regression-testing`.
 
 ## Hard Gates
 
@@ -25,6 +26,7 @@ This is the parent entry point for the Easy PRD Testing plugin. It determines th
 4. Do not enter execution gates until `01-04` planning artifacts exist and the user explicitly confirms them.
 5. Do not execute pages until environment address, test path, login mode, account handling, execution mode, and high-risk authorization are confirmed.
 6. Do not let child agents write outside their assigned priority directory.
+7. Do not start regression testing until a defect ID, test case ID, priority, or explicit user-confirmed regression scope is known.
 
 ## Visible Task List
 
@@ -52,6 +54,10 @@ Default tasks:
 10. Execute P0/P1/P2/P3 cases.
 11. Aggregate execution and defect records.
 12. Report final conclusion and evidence index.
+13. Confirm regression target after defect fixes when requested.
+14. Run Playwright Test regression scripts when available.
+15. Recheck unclear regression failures with `agent-browser`.
+16. Update regression records and defect statuses.
 
 Update the task list whenever a stage starts, completes, becomes blocked, resumes, or is skipped. A task must not be marked `completed` until the related user confirmation, generated artifact, execution result, or summary exists.
 
