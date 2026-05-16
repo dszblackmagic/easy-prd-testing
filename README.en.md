@@ -16,6 +16,24 @@ Easy PRD Testing is a Codex plugin for PRD / prototype-driven automation self-te
 
 Use this repository as a complete Codex Plugin instead of copying a single skill. The complete plugin preserves parent orchestration, stage routing, artifact path contracts, and visible execution progress.
 
+### Install As A Codex Skill
+
+If you want to give Codex the remote repository URL directly, describe the install request like this:
+
+```text
+Install the easy-prd-testing skill from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." and the skill name easy-prd-testing.
+```
+
+The corresponding installer arguments are:
+
+```bash
+install-skill-from-github.py --repo dszblackmagic/easy-prd-testing --path . --name easy-prd-testing
+```
+
+Restart Codex after installation so the new skill is loaded.
+
+### Use As A Codex Plugin
+
 ```bash
 git clone git@github.com:dszblackmagic/easy-prd-testing.git
 cd easy-prd-testing

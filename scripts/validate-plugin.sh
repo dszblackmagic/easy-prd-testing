@@ -90,6 +90,7 @@ PY
 }
 
 PLUGIN_JSON=".codex-plugin/plugin.json"
+require_file "SKILL.md"
 require_file "$PLUGIN_JSON"
 
 skills_path="$(json_value "$PLUGIN_JSON" "skills")" || fail "invalid JSON or missing string field: skills"

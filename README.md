@@ -16,6 +16,24 @@ Easy PRD Testing 是一个面向 Codex 的 PRD / 原型驱动自动化自测插�
 
 推荐将本仓库作为完整 Codex Plugin 使用，而不是只复制单个 skill。完整插件会保留父级编排、阶段路由、产物目录契约和执行进度展示。
 
+### 作为 Codex Skill 安装
+
+如果你希望直接把远端仓库地址交给 Codex 安装，可以这样描述：
+
+```text
+请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing skill，安装路径使用仓库根目录 "."，skill 名称使用 easy-prd-testing。
+```
+
+对应的安装器参数是：
+
+```bash
+install-skill-from-github.py --repo dszblackmagic/easy-prd-testing --path . --name easy-prd-testing
+```
+
+安装后需要重启 Codex，让新 skill 生效。
+
+### 作为 Codex Plugin 使用
+
 ```bash
 git clone git@github.com:dszblackmagic/easy-prd-testing.git
 cd easy-prd-testing
