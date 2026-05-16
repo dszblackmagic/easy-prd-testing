@@ -54,4 +54,4 @@ Pull requests should include a short summary, changed files or areas, validation
 
 ## Agent-Specific Instructions
 
-Do not commit generated `docs/superpowers/` content or documentation produced for external plugins. Keep Git history scoped to this repository's plugin, docs, templates, and scripts. Preserve the output path contract: `<output-root>/easy-prd-testing/testing/<module-name>/`. Keep execution gates strict: `01-04` files must exist and be explicitly confirmed before execution.
+Do not commit generated `docs/superpowers/` content or documentation produced for external plugins. Keep Git history scoped to this repository's plugin, docs, templates, and scripts. Match the user's input language in replies, and carry that language preference into any referenced skill workflow unless the user explicitly asks to switch languages. Preserve the output path contract: `<output-root>/easy-prd-testing/testing/<module-name>/`. Keep execution gates strict: `01-04` files must exist and be explicitly confirmed before execution.
