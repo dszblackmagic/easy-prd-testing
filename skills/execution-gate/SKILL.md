@@ -32,7 +32,9 @@ Ask only the earliest missing item:
 4. Login mode: specified account, reuse current session, or no login.
 5. For specified account: account, password retrieval method, and permission scope.
 6. Execution mode: single agent or priority-based multi-agent.
-7. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
+7. Execution backend policy: default `agent-browser`, diagnostic Chrome DevTools CLI, final fallback Chrome DevTools MCP.
+8. Playwright Test policy: generate regression script drafts only when the user requests script persistence or when P0/P1 failures need future regression.
+9. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
 
 ## Final Execution Plan
 
@@ -42,6 +44,8 @@ When all prerequisites are confirmed, summarize:
 - Test environment and path.
 - Login mode and account handling.
 - Execution mode.
+- Execution backend policy.
+- Playwright Test policy.
 - High-risk authorization boundary.
 - Priority scope.
 - Evidence directories.
