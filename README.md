@@ -176,7 +176,7 @@ scripts/validate-plugin.sh
 bash -n scripts/validate-plugin.sh scripts/scaffold-testing-docs.sh
 ```
 
-贡献规范见 `AGENTS.md`。外部插件过程文档和 `docs/superpowers/` 内容不纳入 git 管理。
+贡献规范见 `AGENTS.md`。
 
 ## License
 

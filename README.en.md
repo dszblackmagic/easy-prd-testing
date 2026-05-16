@@ -176,7 +176,7 @@ scripts/validate-plugin.sh
 bash -n scripts/validate-plugin.sh scripts/scaffold-testing-docs.sh
 ```
 
-See `AGENTS.md` for contribution rules. External plugin process documents and `docs/superpowers/` content are not tracked in git.
+See `AGENTS.md` for contribution rules.
 
 ## License
 
