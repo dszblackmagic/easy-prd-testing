@@ -135,5 +135,7 @@ require_file "README.md"
 require_file "docs/agent-protocol.md"
 require_file "docs/artifact-contract.md"
 require_file "docs/workflow.md"
+require_file "scripts/check-deps.sh"
+bash -n "scripts/check-deps.sh" || fail "invalid shell syntax: scripts/check-deps.sh"
 
 printf 'Plugin validation passed.\n'

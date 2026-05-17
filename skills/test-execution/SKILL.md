@@ -15,6 +15,7 @@ Execute confirmed test cases and record evidence by priority.
 - Readable `01-04` planning artifacts.
 - Final execution plan from `execution-gate`.
 - Confirmed risk boundary.
+- Runtime dependency check result from `execution-gate`, including downgrade strategy for unavailable optional dependencies.
 
 ## Execution Modes
 
@@ -83,6 +84,11 @@ Failure diagnostics:
 - Use Chrome DevTools MCP only when CLI diagnostics are unavailable, insufficient, or require interactive DevTools analysis.
 - Child agents must not start MCP by default.
 - If a dependency is unavailable, record the downgrade strategy and continue only when the remaining evidence is sufficient.
+- Read the dependency check result before page execution.
+- The main agent owns dependency installation prompts and install execution after explicit user confirmation.
+- Child agents must not install dependencies. They may only record blockers or request main-agent intervention.
+- If a diagnostic backend is unavailable, record the downgrade reason and evidence gap in the priority execution record.
+- Do not claim Console, Network, HAR, trace, or MCP evidence unless the related tool actually produced it.
 
 ## Progress Output
 

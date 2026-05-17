@@ -33,8 +33,18 @@ Ask only the earliest missing item:
 5. For specified account: account, password retrieval method, and permission scope.
 6. Execution mode: single agent or priority-based multi-agent.
 7. Execution backend policy: default `agent-browser`, diagnostic Chrome DevTools CLI, final fallback Chrome DevTools MCP.
-8. Playwright Test policy: generate regression script drafts only when the user requests script persistence or when P0/P1 failures need future regression.
-9. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
+8. Runtime dependency check: run `scripts/check-deps.sh` when available, or manually check the same dependency layers when this skill is installed without repository scripts.
+9. Playwright Test policy: generate regression script drafts only when the user requests script persistence or when P0/P1 failures need future regression.
+10. High-risk action authorization: allow real submission, or verify only entry, display, validation, secondary confirmation, and messages.
+
+## Runtime Dependency Rules
+
+- The dependency check is detection-only. Do not install anything during the check.
+- If basic dependencies are missing, stop and ask whether the user permits installation or environment setup.
+- If Playwright is missing and scripts, video, or trace are required, show the suggested command and ask for explicit user confirmation before installing.
+- If Chrome or Chromium is missing, ask whether to install Playwright Chromium or configure a local browser.
+- Chrome DevTools CLI and Chrome DevTools MCP are optional diagnostic enhancements. Missing optional diagnostics do not block ordinary execution, but the final execution plan must record the limitation.
+- Child agents must not install dependencies.
 
 ## Final Execution Plan
 
@@ -45,6 +55,10 @@ When all prerequisites are confirmed, summarize:
 - Login mode and account handling.
 - Execution mode.
 - Execution backend policy.
+- Runtime dependency check result.
+- Missing dependencies and suggested install commands.
+- User-confirmed install permissions, if any.
+- Downgrade strategy for unavailable optional dependencies.
 - Playwright Test policy.
 - High-risk authorization boundary.
 - Priority scope.
