@@ -63,6 +63,26 @@ function releaseFiles(root, includeUntracked = false) {
         .sort((a, b) => a.localeCompare(b, 'en'));
 }
 
+function trackedFileModes(root) {
+    const output = execFileSync(
+        'git',
+        ['-C', root, 'ls-files', '--stage', '-z'],
+        { encoding: 'buffer' },
+    );
+    const modes = new Map();
+    for (const entry of output.toString('utf8').split('\0').filter(Boolean)) {
+        const separator = entry.indexOf('\t');
+        if (separator === -1) fail(`Cannot parse Git index entry: ${entry}`);
+        const [mode, , stage] = entry.slice(0, separator).split(' ');
+        if (stage !== '0') fail('Cannot build a release while the Git index contains conflicts.');
+        if (mode !== '100644' && mode !== '100755') {
+            fail(`Release entries must be regular Git files: ${entry.slice(separator + 1)}`);
+        }
+        modes.set(entry.slice(separator + 1), mode === '100755' ? 0o755 : 0o644);
+    }
+    return modes;
+}
+
 function parseHighlights(markdown) {
     const lines = markdown.split(/\r?\n/);
     const headingIndex = lines.findIndex((line) => line.trim() === '## 更新亮点');
@@ -145,6 +165,7 @@ async function readPluginVersion(root) {
 
 async function collectPackageFiles(root, version, includeUntracked) {
     const paths = releaseFiles(root, includeUntracked);
+    const indexModes = trackedFileModes(root);
     const files = [];
     const managedFiles = [];
     for (const path of paths) {
@@ -152,7 +173,7 @@ async function collectPackageFiles(root, version, includeUntracked) {
         const fileStat = await lstat(absolutePath);
         if (!fileStat.isFile()) fail(`Release entries must be regular files: ${path}`);
         const data = await readFile(absolutePath);
-        const mode = fileStat.mode & 0o111 ? 0o755 : 0o644;
+        const mode = indexModes.get(path) ?? (fileStat.mode & 0o111 ? 0o755 : 0o644);
         files.push({ path: `${PACKAGE_ROOT}/${path}`, data, mode });
         managedFiles.push({ path, digest: `sha256:${sha256(data)}`, mode: mode === 0o755 ? '755' : '644' });
     }

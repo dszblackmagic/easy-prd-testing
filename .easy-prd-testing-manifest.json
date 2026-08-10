@@ -65,7 +65,7 @@
     },
     {
       "path": "scripts/build-release.mjs",
-      "digest": "sha256:747371293c011edb0f62a37bd09f31db11b4fafbf28c6784350f37dd46e835a9",
+      "digest": "sha256:3e6d7404104de0ed528b8d89c1e55f34fb89a1632bc4eaa1b8e8733aaa80bc5b",
       "mode": "644"
     },
     {
@@ -85,7 +85,7 @@
     },
     {
       "path": "scripts/test-self-update.mjs",
-      "digest": "sha256:44da78229edbed0a601c7d6aa6cb7810dc4b832dcc1bf547cb2fcb81aa6b4a80",
+      "digest": "sha256:17cfdbebac11365f01bf8bb69f613141f8938d17d4813da802680be4d5735ab8",
       "mode": "644"
     },
     {

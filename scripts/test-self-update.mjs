@@ -181,6 +181,10 @@ async function run() {
     const archive = await readFile(build.assetPath);
     assert.equal(build.metadata.highlights.length, 4);
     assert.equal(build.metadata.localDigest, digest(archive));
+    assert.equal(
+        build.packageManifest.files.find((file) => file.path === 'scripts/validate-plugin.sh')?.mode,
+        '755',
+    );
     const secondBuildRoot = await temporaryDirectory('build-repeat');
     const secondBuild = await buildReleasePackage({
         root: repositoryRoot,
