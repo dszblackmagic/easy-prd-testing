@@ -1,0 +1,4 @@
+interface:
+  display_name: "Self Update"
+  short_description: "Safely update the complete skill suite"
+  default_prompt: "Use $self-update to check for and install the latest stable Easy PRD Testing release."

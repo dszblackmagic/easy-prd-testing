@@ -1,7 +1,7 @@
 {
   "name": "easy-prd-testing",
-  "version": "0.1.1",
-  "description": "PRD and prototype driven automation self-testing workflow for Codex.",
+  "version": "0.1.2",
+  "description": "PRD and prototype driven automation self-testing workflow with safe full-suite updates for Codex.",
   "author": {
     "name": "Easy PRD Testing contributors"
   },
@@ -14,13 +14,14 @@
     "automation",
     "codex",
     "playwright",
+    "self-update",
     "xmind",
     "skills"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Easy PRD Testing",
-    "shortDescription": "Plan and execute PRD based automation tests with gates, evidence, and aggregation.",
+    "shortDescription": "Plan and run PRD based tests with gates, evidence, regression, and safe suite updates.",
     "category": "Testing",
     "capabilities": [
       "Interactive",
@@ -30,7 +31,7 @@
     "defaultPrompt": [
       "Use PRD documents, prototype images, or confirmed testing artifacts to run the Easy PRD Testing workflow.",
       "Generate automation self-testing planning artifacts from a PRD or prototype, with an optional native XMind test-case view.",
-      "Execute confirmed tests with gates and evidence, then run script-first regression after fixes."
+      "Execute confirmed tests, run script-first regression after fixes, or safely update the installed skill suite."
     ]
   }
 }

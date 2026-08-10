@@ -10,7 +10,7 @@
 
 <p>
   <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
-  <img alt="Agent Skills: 8" src="https://img.shields.io/badge/agent_skills-8-58a6ff?style=flat-square">
+  <img alt="Agent Skills: 9" src="https://img.shields.io/badge/agent_skills-9-58a6ff?style=flat-square">
   <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
 </p>
@@ -19,6 +19,7 @@
   <strong>简体中文</strong> ·
   <a href="README.en.md">English</a> ·
   <a href="#让-ai-一键安装">AI 一键安装</a> ·
+  <a href="#升级整套-skills">版本升级</a> ·
   <a href="#主要流程">主要流程</a>
 </p>
 
@@ -60,7 +61,7 @@ Easy PRD Testing 是一套面向 AI 编码工具的 PRD / 原型驱动自动化�
 请安装并配置整个 Easy PRD Testing 仓库：
 https://github.com/dszblackmagic/easy-prd-testing
 
-请先识别当前 AI 编码工具支持的 Skill 或 Plugin 机制，再按该工具的官方约定完成安装。保留仓库根 SKILL.md、skills/ 下的全部阶段 Skills、模板和 scripts/，不要只复制单个 Skill。检测到同名旧版本时，覆盖或迁移前先征得我的确认。安装后运行 scripts/validate-plugin.sh；如果缺少依赖，只告诉我安装方法，不要自动安装。最后告诉我安装位置、采用的安装形态，以及如何启动完整测试流程。
+请先识别当前 AI 编码工具支持的 Skill 或 Plugin 机制，再按该工具的官方约定完成安装。保留仓库根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/ 下的全部阶段 Skills、模板和 scripts/，不要只复制单个 Skill，也不要遗漏隐藏文件。检测到同名旧版本时，覆盖或迁移前先征得我的确认。安装后运行 scripts/validate-plugin.sh；如果缺少依赖，只告诉我安装方法，不要自动安装。最后告诉我安装位置、采用的安装形态，以及如何启动完整测试流程。
 ```
 
 ### Codex：安装为 Skill
@@ -68,7 +69,7 @@ https://github.com/dszblackmagic/easy-prd-testing
 适合希望直接通过 `$easy-prd-testing` 使用完整流程的用户：
 
 ```text
-$skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing。使用仓库根目录 "." 作为 Skill，保留根 SKILL.md、skills/、模板和 scripts/ 的完整目录结构。检测到同名安装时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。完成后告诉我安装位置，并确认可以通过 $easy-prd-testing 启动。
+$skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing。使用仓库根目录 "." 作为 Skill，保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/、模板和 scripts/ 的完整目录结构，不要遗漏隐藏文件。检测到同名安装时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。完成后告诉我安装位置，并确认可以通过 $easy-prd-testing 启动。
 ```
 
 ### Codex：安装为 Plugin
@@ -76,20 +77,20 @@ $skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装
 适合希望通过 Codex Plugin 载入全部阶段 Skills 的用户：
 
 ```text
-请把 https://github.com/dszblackmagic/easy-prd-testing 安装为完整 Codex Plugin。请保留 .codex-plugin/plugin.json、skills/、模板和 scripts/，按照当前 Codex 的本地 Plugin 与 marketplace 约定完成配置和安装。检测到同名 Plugin 时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh，并用 Codex 的插件列表确认 easy-prd-testing 可见。缺少依赖时只提示，不要自动安装。最后告诉我安装位置和启动方式。
+请把 https://github.com/dszblackmagic/easy-prd-testing 安装为完整 Codex Plugin。请保留 .easy-prd-testing-manifest.json、.codex-plugin/plugin.json、skills/、模板和 scripts/，不要遗漏隐藏文件，并按照当前 Codex 的本地 Plugin 与 marketplace 约定完成配置和安装。检测到同名 Plugin 时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh，并用 Codex 的插件列表确认 easy-prd-testing 可见。缺少依赖时只提示，不要自动安装。最后告诉我安装位置和启动方式。
 ```
 
 ### Claude Code：安装整套 Skills
 
 ```text
-请把 https://github.com/dszblackmagic/easy-prd-testing 安装到当前 Claude Code 环境，使用 Claude Code 当前支持的 Agent Skills 目录和加载约定。请安装整个仓库并保留根 SKILL.md、skills/ 下的全部阶段 Skills、模板和 scripts/，确保父 Skill 能继续读取相对路径中的阶段说明。检测到同名旧版本时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。最后告诉我安装位置，以及如何调用 easy-prd-testing。
+请把 https://github.com/dszblackmagic/easy-prd-testing 安装到当前 Claude Code 环境，使用 Claude Code 当前支持的 Agent Skills 目录和加载约定。请安装整个仓库并保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/ 下的全部阶段 Skills、模板和 scripts/，不要遗漏隐藏文件，确保父 Skill 能继续读取相对路径中的阶段说明。检测到同名旧版本时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。最后告诉我安装位置，以及如何调用 easy-prd-testing。
 ```
 
 ### 其他支持 `SKILL.md` 的工具
 
 优先使用上面的“通用 AI 编码工具”提示词。不同工具对 Skills 的扫描目录、显式调用语法和脚本权限可能不同；README 不对未实际验证的工具承诺原生安装体验。不支持 Agent Skills 的工具仍可读取本仓库说明，并按同一流程执行任务。
 
-完整流程需要能够读取本地文件并运行脚本的 AI 编码环境。XMind 导出需要 Node.js 18 或更高版本；缺少依赖时应提示用户安装，不自动安装。
+完整流程需要能够读取本地文件并运行脚本的 AI 编码环境。XMind 导出与整套 Skills 升级需要 Node.js 18 或更高版本；缺少依赖时应提示用户安装，不自动安装。
 
 <details>
 <summary>手动下载和验证</summary>
@@ -103,6 +104,30 @@ scripts/validate-plugin.sh
 下载后，再按当前 AI 工具的官方约定引用该目录。
 
 </details>
+
+## 升级整套 Skills
+
+从 `v0.1.2` 开始，不需要记忆固定指令。只要向 AI 表达 Easy PRD Testing 的升级意图，例如：
+
+```text
+升级一下版本
+帮我看看这套 Skills 有没有更新
+把 Easy PRD Testing 插件同步到最新版
+```
+
+`self-update` 会自动定位当前安装，只读检查最新正式 Release，并展示当前版本、目标版本和 3～5 条更新亮点。发现新版本后，AI 会询问一次是否升级；用户确认后再执行下载、GitHub SHA-256 校验、临时目录验证和事务切换。正常升级不会逐步反复询问。
+
+升级默认只处理当前安装，不扫描其他 AI 工具中的副本，也不会在测试流程启动时后台检查。检测到本地修改、Git 工作区未提交内容、符号链接或不兼容升级协议时会安全停止；升级成功后，请新建会话或重新加载当前工具的 Skills / Plugin。
+
+### `v0.1.1` 及更早版本迁移
+
+旧版本还没有 `self-update`，需要先把下面这段话交给 AI 完成一次重新安装：
+
+```text
+请从 https://github.com/dszblackmagic/easy-prd-testing 重新安装最新稳定版，替换当前 Easy PRD Testing 安装。替换前检查并告知我是否存在本地修改，安装后运行 scripts/validate-plugin.sh；如果缺少 Node.js 18 或其他依赖，只告诉我安装方法，不要自动安装。完成后告诉我安装位置和版本。
+```
+
+完成这次迁移后，后续版本即可使用上面的自然语言升级方式。
 
 ## 30 秒快速开始
 
@@ -152,8 +177,9 @@ $easy-prd-testing 请根据 /path/to/订单管理-PRD.md，为订单管理模块
 | `test-execution` | 执行门禁全部通过后 | 完整流程自动进入 | P0-P3 执行记录、缺陷和证据 |
 | `result-aggregation` | 各优先级执行结束后 | 完整流程自动进入 | 根级执行与缺陷汇总 |
 | `regression-testing` | 缺陷修复且回归范围明确后 | 按需独立触发 | 回归记录与缺陷状态更新 |
+| `self-update` | 希望检查或升级 Easy PRD Testing 版本时 | 根据升级语义独立触发 | 版本检查、更新摘要与整套 Skills 安全升级 |
 
-调用原则很简单：完整测试默认调用 `easy-prd-testing`；只有独立分析需求、生成规划、导出 XMind 或执行回归时，才指定对应阶段。若当前安装形态单独暴露了阶段 Skill，可以直接调用；否则仍调用父 Skill 并在提示词中写明阶段名。
+调用原则很简单：完整测试默认调用 `easy-prd-testing`；只有独立分析需求、生成规划、导出 XMind、执行回归或升级版本时，才指定对应阶段。版本升级不属于测试主流程，也不会改变 `01-04` 执行门禁。若当前安装形态单独暴露了阶段 Skill，可以直接调用；否则仍调用父 Skill 并在提示词中写明意图。
 
 ## 各阶段会做什么
 
@@ -186,6 +212,10 @@ $easy-prd-testing 请根据 /path/to/订单管理-PRD.md，为订单管理模块
 ### 6. 缺陷修复后回归
 
 `regression-testing` 在回归目标明确后，优先复用已有 Playwright Test 脚本验证修复结果，并更新回归记录和缺陷状态。更具体的执行与诊断升级规则见 [`docs/agent-protocol.md`](docs/agent-protocol.md)。
+
+### 独立维护：升级整套 Skills
+
+`self-update` 在没有进行中的执行阶段时检查最新正式 Release，展示更新亮点并等待一次明确确认。升级引擎负责 SHA-256 校验、本地修改保护、安全解包和失败恢复；升级成功后从新会话开始使用新版本。
 
 ## 产物、门禁与参考
 
@@ -227,5 +257,6 @@ MIT
 - 从 PRD 到测试执行过程中缺失或不合理的节点。
 - 测试产物、执行门禁和多 agent 协作体验。
 - Markdown 用例与 XMind 导出结果。
+- 整套 Skills 的版本检查与升级体验。
 
 每一条真实使用反馈，都会帮助这套 Skills 变得更可靠、更容易使用。

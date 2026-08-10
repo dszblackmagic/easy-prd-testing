@@ -10,7 +10,7 @@
 
 <p>
   <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
-  <img alt="Agent Skills: 8" src="https://img.shields.io/badge/agent_skills-8-58a6ff?style=flat-square">
+  <img alt="Agent Skills: 9" src="https://img.shields.io/badge/agent_skills-9-58a6ff?style=flat-square">
   <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
 </p>
@@ -19,6 +19,7 @@
   <a href="README.md">简体中文</a> ·
   <strong>English</strong> ·
   <a href="#let-ai-install-it-for-you">Install with AI</a> ·
+  <a href="#update-the-complete-skill-suite">Update</a> ·
   <a href="#main-workflow">Main workflow</a>
 </p>
 
@@ -60,7 +61,7 @@ Copy the prompt that matches your current tool and give it to the AI. The instal
 Install and configure the complete Easy PRD Testing repository:
 https://github.com/dszblackmagic/easy-prd-testing
 
-First identify the Skill or Plugin mechanism supported by the current AI coding tool, then install the repository according to that tool's official conventions. Preserve the root SKILL.md, every stage skill under skills/, all templates, and scripts/; do not copy only one skill. If an installation with the same name already exists, ask me before replacing or migrating it. Run scripts/validate-plugin.sh after installation. If a dependency is missing, tell me how to install it but do not install it automatically. Finally, report the install location, install type, and how to start the complete testing workflow.
+First identify the Skill or Plugin mechanism supported by the current AI coding tool, then install the repository according to that tool's official conventions. Preserve the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, every stage skill under skills/, all templates, and scripts/; do not copy only one skill or omit hidden files. If an installation with the same name already exists, ask me before replacing or migrating it. Run scripts/validate-plugin.sh after installation. If a dependency is missing, tell me how to install it but do not install it automatically. Finally, report the install location, install type, and how to start the complete testing workflow.
 ```
 
 ### Codex: Install As A Skill
@@ -68,7 +69,7 @@ First identify the Skill or Plugin mechanism supported by the current AI coding 
 Use this option when you want to start the complete workflow directly through `$easy-prd-testing`:
 
 ```text
-$skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." as the skill and preserve the complete structure containing the root SKILL.md, skills/, templates, and scripts/. If an installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. When finished, tell me the install location and confirm that I can start it with $easy-prd-testing.
+$skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." as the skill and preserve the complete structure containing the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, skills/, templates, and scripts/ without omitting hidden files. If an installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. When finished, tell me the install location and confirm that I can start it with $easy-prd-testing.
 ```
 
 ### Codex: Install As A Plugin
@@ -76,20 +77,20 @@ $skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/
 Use this option when you want Codex Plugin loading for all stage skills:
 
 ```text
-Install https://github.com/dszblackmagic/easy-prd-testing as a complete Codex Plugin. Preserve .codex-plugin/plugin.json, skills/, templates, and scripts/, then configure and install it according to the current Codex local Plugin and marketplace conventions. If a Plugin with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation and confirm that easy-prd-testing appears in the Codex plugin list. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to start the workflow.
+Install https://github.com/dszblackmagic/easy-prd-testing as a complete Codex Plugin. Preserve .easy-prd-testing-manifest.json, .codex-plugin/plugin.json, skills/, templates, and scripts/ without omitting hidden files, then configure and install it according to the current Codex local Plugin and marketplace conventions. If a Plugin with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation and confirm that easy-prd-testing appears in the Codex plugin list. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to start the workflow.
 ```
 
 ### Claude Code: Install The Complete Skill Suite
 
 ```text
-Install https://github.com/dszblackmagic/easy-prd-testing in the current Claude Code environment using Claude Code's currently supported Agent Skills directory and loading conventions. Install the complete repository and preserve the root SKILL.md, every stage skill under skills/, all templates, and scripts/ so the parent skill can continue to read stage instructions through their relative paths. If an older installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to invoke easy-prd-testing.
+Install https://github.com/dszblackmagic/easy-prd-testing in the current Claude Code environment using Claude Code's currently supported Agent Skills directory and loading conventions. Install the complete repository and preserve the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, every stage skill under skills/, all templates, and scripts/ without omitting hidden files so the parent skill can continue to read stage instructions through their relative paths. If an older installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to invoke easy-prd-testing.
 ```
 
 ### Other Tools With `SKILL.md` Support
 
 Start with the “General AI Coding Tools” prompt above. Skill discovery directories, explicit invocation syntax, and script permissions vary between tools, so this README does not promise native installation on tools that have not been tested. Tools without Agent Skills support can still read this repository and follow the same workflow.
 
-The complete workflow requires an AI coding environment that can read local files and run scripts. XMind export requires Node.js 18 or later. Missing dependencies should be reported to the user, not installed automatically.
+The complete workflow requires an AI coding environment that can read local files and run scripts. XMind export and complete Skill-suite updates require Node.js 18 or later. Missing dependencies should be reported to the user, not installed automatically.
 
 <details>
 <summary>Manual download and validation</summary>
@@ -103,6 +104,30 @@ scripts/validate-plugin.sh
 After downloading, reference the directory using the current AI tool's official conventions.
 
 </details>
+
+## Update The Complete Skill Suite
+
+Starting with `v0.1.2`, there is no fixed command to memorize. Express an Easy PRD Testing update intent in natural language, for example:
+
+```text
+Update this version
+Check whether these Skills have an update
+Bring the Easy PRD Testing plugin up to date
+```
+
+`self-update` locates the current installation, performs a read-only check against the latest stable Release, and shows the current version, target version, and 3–5 release highlights. When an update exists, the AI asks once before downloading, verifying the GitHub SHA-256 digest, validating in a temporary directory, and switching the installation transactionally. A normal update does not prompt at every step.
+
+Only the current installation is updated. Other AI-tool copies are not scanned, and no background check runs when a testing workflow starts. Local modifications, dirty Git worktrees, symlinked installs, and incompatible update protocols stop safely. After a successful update, start a new session or reload the current tool's Skills or Plugin.
+
+### Migrating From `v0.1.1` Or Earlier
+
+Older versions do not contain `self-update`. Give the following one-time migration prompt to your AI:
+
+```text
+Reinstall the latest stable Easy PRD Testing release from https://github.com/dszblackmagic/easy-prd-testing and replace the current installation. Check for local modifications and report them before replacement, then run scripts/validate-plugin.sh after installation. If Node.js 18 or another dependency is missing, tell me how to install it but do not install it automatically. Finally, report the installation path and version.
+```
+
+Future releases can use the natural-language update flow above after this migration.
 
 ## 30-Second Quick Start
 
@@ -152,8 +177,9 @@ Use the regression-testing stage of easy-prd-testing to run regression for <defe
 | `test-execution` | After every execution gate passes | Automatic in the complete workflow | P0-P3 execution records, defects, and evidence |
 | `result-aggregation` | After priority-based execution finishes | Automatic in the complete workflow | Root execution and defect summaries |
 | `regression-testing` | After a defect is fixed and the regression scope is known | Independent, on-demand entry | Regression records and defect status updates |
+| `self-update` | When the Easy PRD Testing version should be checked or upgraded | Independent routing based on update intent | Version check, release summary, and safe full-suite update |
 
-The invocation rule is simple: use `easy-prd-testing` for a complete test workflow and name a stage only for independent requirement analysis, planning, XMind export, or regression. If the selected install type exposes stage skills individually, invoke one directly; otherwise invoke the parent skill and name the stage in the prompt.
+The invocation rule is simple: use `easy-prd-testing` for a complete test workflow and name a stage only for independent requirement analysis, planning, XMind export, regression, or version updates. Updating is outside the testing workflow and never changes the `01-04` execution gate. If the selected install type exposes stage skills individually, invoke one directly; otherwise invoke the parent skill and state the intent.
 
 ## What Happens At Each Stage
 
@@ -186,6 +212,10 @@ After the user explicitly confirms `01-04`, `execution-gate` confirms the test U
 ### 6. Regress After Defect Fixes
 
 Once the regression target is known, `regression-testing` reuses existing Playwright Test scripts first, then updates regression records and defect statuses. See [`docs/agent-protocol.md`](docs/agent-protocol.md) for the detailed execution and diagnostic escalation rules.
+
+### Independent Maintenance: Update The Complete Skill Suite
+
+When no execution-stage task is active, `self-update` checks the latest stable Release, presents its highlights, and waits for one explicit confirmation. The updater enforces SHA-256 verification, local-change protection, safe extraction, and failure recovery. Use the new version from a fresh session after a successful update.
 
 ## Artifacts, Gates, And References
 
@@ -227,5 +257,6 @@ If you encounter a problem or have an improvement idea, please open a [GitHub Is
 - Missing or awkward steps between PRD intake and test execution.
 - Testing artifacts, execution gates, and multi-agent collaboration.
 - Markdown test cases and XMind export results.
+- Version checks and complete Skill-suite updates.
 
 Every report from real-world usage helps make this skill suite more reliable and easier to use.

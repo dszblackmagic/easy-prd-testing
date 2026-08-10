@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.2",
+  "rootDirectory": "easy-prd-testing",
+  "files": [
+    {
+      "path": ".codex-plugin/plugin.json",
+      "digest": "sha256:1d3ec9e4d1d806590c92759a2cba20a189fc1976dc1a6d1c16600c14809bbdb4",
+      "mode": "644"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "digest": "sha256:ecec4df636f3bc2ec9eed5d68cb548c49fd7b929f240bb2d6f3058162ef09e71",
+      "mode": "644"
+    },
+    {
+      "path": ".gitignore",
+      "digest": "sha256:9d3688e8e757283b9902f856b42c07afbd0e8cdc91cacde7c99a84bb60df9c21",
+      "mode": "644"
+    },
+    {
+      "path": "AGENTS.md",
+      "digest": "sha256:c6bca1006606ea1658d35c06ab44e26bdfc7af973dfe01576a8659f740920cbb",
+      "mode": "644"
+    },
+    {
+      "path": "docs/agent-protocol.md",
+      "digest": "sha256:f6c7f6e30d682c4b822d9b70339c66fd52781850796d998b19c2596c3d740213",
+      "mode": "644"
+    },
+    {
+      "path": "docs/artifact-contract.md",
+      "digest": "sha256:c26830a0ace0b59f6238a4b63625b97d258b652d79669dc5dc5255aae737907e",
+      "mode": "644"
+    },
+    {
+      "path": "docs/releases/v0.1.2.md",
+      "digest": "sha256:44c59a5ff61509780dcaa44a2b89875c9e98d7a33fb3c6cc1e4b6a2e80b17fe7",
+      "mode": "644"
+    },
+    {
+      "path": "docs/workflow.md",
+      "digest": "sha256:3907e60d84d11f0fce470c60cbb717cfa2876b13993d7edb2f7220ebb36e00cc",
+      "mode": "644"
+    },
+    {
+      "path": "LICENSE",
+      "digest": "sha256:e5227b1a9ea9d6a35aeb4e54173fae62b708b2925c929830607e8956459582ef",
+      "mode": "644"
+    },
+    {
+      "path": "README.en.md",
+      "digest": "sha256:79709dfbf4831f8c89e9c5f2e2546a3273acbac58ae0bc98e414a064e080ec14",
+      "mode": "644"
+    },
+    {
+      "path": "README.md",
+      "digest": "sha256:f0699fed0881e88beb7bb09c1d96f8e4cd2c51a2036813dc6cef0fb367dab506",
+      "mode": "644"
+    },
+    {
+      "path": "scripts/build-release.mjs",
+      "digest": "sha256:747371293c011edb0f62a37bd09f31db11b4fafbf28c6784350f37dd46e835a9",
+      "mode": "644"
+    },
+    {
+      "path": "scripts/check-deps.sh",
+      "digest": "sha256:2ddc3777526aeae23bbf5f066a1043fa93a32fa34732126abdf88449cbacb2fc",
+      "mode": "755"
+    },
+    {
+      "path": "scripts/easy-prd-testing.mjs",
+      "digest": "sha256:d89d27ce37f76669a705f8d4913f3a76c9d81e2b8f61ee86020915105c3e0b3d",
+      "mode": "644"
+    },
+    {
+      "path": "scripts/scaffold-testing-docs.sh",
+      "digest": "sha256:e94f4fa4dedc189b0e91d84742b9c5541e219e6cc96de7f804a8d80445199915",
+      "mode": "755"
+    },
+    {
+      "path": "scripts/test-self-update.mjs",
+      "digest": "sha256:44da78229edbed0a601c7d6aa6cb7810dc4b832dcc1bf547cb2fcb81aa6b4a80",
+      "mode": "644"
+    },
+    {
+      "path": "scripts/test-xmind-export.mjs",
+      "digest": "sha256:9cfb3f87bdc49c0695e978e95e11b830770722e2eeac4befef70bb77979ccb58",
+      "mode": "644"
+    },
+    {
+      "path": "scripts/validate-plugin.sh",
+      "digest": "sha256:9094e4896e4df512d3b1299fcfe369edab7c7f61c9de0bf8ba8aa32844f94440",
+      "mode": "755"
+    },
+    {
+      "path": "SKILL.md",
+      "digest": "sha256:112674843d32a7ae0f22fe037d745511656347675f9d64c8a49f3965f4b7fed4",
+      "mode": "644"
+    },
+    {
+      "path": "skills/easy-prd-testing/SKILL.md",
+      "digest": "sha256:ac101b0851fdea0692529dc419f87bd11090f202e58b66f8e733fd956d406f4b",
+      "mode": "644"
+    },
+    {
+      "path": "skills/execution-gate/SKILL.md",
+      "digest": "sha256:c2d422d9fc1ced6f8cb7bcf4cba089e0a5a0dc09e1648db4fb71fa76b62556df",
+      "mode": "644"
+    },
+    {
+      "path": "skills/execution-gate/templates/执行前确认.md",
+      "digest": "sha256:56936bf344d420dbe3b62843804522c340a55eeb08581cc64b913d7c189cf05a",
+      "mode": "644"
+    },
+    {
+      "path": "skills/prd-intake/SKILL.md",
+      "digest": "sha256:e2bbca9ebe91bf6fabd0240b7b3a33d3c5eb6556bf07247ee4cd8a3c8cd204dd",
+      "mode": "644"
+    },
+    {
+      "path": "skills/prd-intake/templates/00-资料分析与待确认问题.md",
+      "digest": "sha256:0048ceaf1ac9ab37b80a12a8e7368ef01fdeee0c796139c6a910131143279f3f",
+      "mode": "644"
+    },
+    {
+      "path": "skills/regression-testing/SKILL.md",
+      "digest": "sha256:7a54b33d2cf8a53e721594482f46b9e68493e5c4e2b52ab84768d1efde722a45",
+      "mode": "644"
+    },
+    {
+      "path": "skills/regression-testing/templates/07-回归记录.md",
+      "digest": "sha256:e5fa8b48bc83fd570a3f9b9cbb53f71a184ec84fb263b519dc30083edba76ceb",
+      "mode": "644"
+    },
+    {
+      "path": "skills/regression-testing/templates/08-回归缺陷状态.md",
+      "digest": "sha256:cc5024896ebd5d170e7c394f7afa3cbf8bf0e985491b5e22ed8cb5af20dd2cc3",
+      "mode": "644"
+    },
+    {
+      "path": "skills/result-aggregation/SKILL.md",
+      "digest": "sha256:848e3b95df95bd374625f9d2150bd85d51ba0ca601503d9cd41be1f05b080f30",
+      "mode": "644"
+    },
+    {
+      "path": "skills/result-aggregation/templates/05-执行记录.md",
+      "digest": "sha256:f8757af6d979395883df84a42879ce39a965b259f6b993b0c669e829e37aa175",
+      "mode": "644"
+    },
+    {
+      "path": "skills/result-aggregation/templates/06-缺陷记录.md",
+      "digest": "sha256:5901019d9b38a176e0d033f39c838848d723d570f2fb64c307dfad7e681c7059",
+      "mode": "644"
+    },
+    {
+      "path": "skills/self-update/agents/openai.yaml",
+      "digest": "sha256:fec312f21ea5eb6ea0f1d5ac890c6b80e49b587abbc859acdb5ab9e43f839e90",
+      "mode": "644"
+    },
+    {
+      "path": "skills/self-update/SKILL.md",
+      "digest": "sha256:10c7ce25340fea37028c9f3457642e2d4b9bdd779e0b24a7bc13bd47e4b274ca",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-execution/SKILL.md",
+      "digest": "sha256:c303708e48b210f97f53c8c122c04c32489be462cad1754e67b3215f5a645ca7",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-execution/templates/执行结果/优先级/05-执行记录.md",
+      "digest": "sha256:c50e84ce91bc0f86a2d8f376394723941173b66e114dc2d477a313be5ede3f30",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-execution/templates/执行结果/优先级/06-缺陷记录.md",
+      "digest": "sha256:802beae4175d2562ad935c87b6e19b87e1b1a084edb3bdcb603d7840b9d29292",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-planning/SKILL.md",
+      "digest": "sha256:45018b8424167e0923811b878ad4a41eb2b3773c6daeca2c852e6e06dfa6fd0e",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-planning/templates/01-模块拆解.md",
+      "digest": "sha256:a17e6a2c2b578a646be0b406960d223bfa3b6f88db2f5ba7b5c8a4801226a9b1",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-planning/templates/02-测试用例.md",
+      "digest": "sha256:706baa1b9def968bc250aea64eb4d7239242a5cfe11c4a251859a821e20bb03f",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-planning/templates/03-执行清单.md",
+      "digest": "sha256:bd42619d5eec74c86d0438058451219fefc6b170f92e6e55186579ab99a22c8d",
+      "mode": "644"
+    },
+    {
+      "path": "skills/test-planning/templates/04-测试数据与账号.md",
+      "digest": "sha256:48df71aed7ef96961f3d8ceaa2de297779a2264f58d3434cfcc3a85b65512c10",
+      "mode": "644"
+    },
+    {
+      "path": "skills/xmind-export/agents/openai.yaml",
+      "digest": "sha256:024d69978b21c6b19c1763fbf60bfe93cbfd4faa7f6461f86beca6daad1a077b",
+      "mode": "644"
+    },
+    {
+      "path": "skills/xmind-export/scripts/create_xmind.mjs",
+      "digest": "sha256:4f8bffbe4590d60a16b53ee428f87882bb99d798b781967fc35d4a467613c427",
+      "mode": "644"
+    },
+    {
+      "path": "skills/xmind-export/scripts/export_test_cases.mjs",
+      "digest": "sha256:b604dd270d3c23def731582d9df0c399b6dafb39164d41678d919beea2f44b6e",
+      "mode": "644"
+    },
+    {
+      "path": "skills/xmind-export/SKILL.md",
+      "digest": "sha256:76742ba2497b3a4e5a020b12001785cbf71ad5f9bde6398d5de251c19a2ac423",
+      "mode": "644"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "digest": "sha256:18e81ff5457ece0a82a43d92c9b296f975f78e89646c08c1855c3cbd4a0693f9",
+      "mode": "644"
+    }
+  ]
+}

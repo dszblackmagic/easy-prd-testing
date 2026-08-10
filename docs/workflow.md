@@ -13,6 +13,22 @@ Easy PRD Testing runs as a gated workflow:
 9. Execute tests in single-agent mode or priority-based multi-agent mode.
 10. Aggregate execution records, defects, blockers, and evidence indexes.
 
+Version maintenance is independent from this testing sequence. Route Easy PRD Testing update intent to `self-update`; never insert an update into an active execution, aggregation, or regression stage.
+
+## Complete Skill-Suite Update
+
+When the user asks to check or upgrade the Easy PRD Testing version:
+
+1. Run the read-only updater check and show the current installation, target stable Release, and release highlights.
+2. Ask once before changing files. Explain irreversible overwrite when a managed copy contains local modifications.
+3. Keep dirty Git worktrees, symlink installations, incomplete copies, and incompatible update protocols unchanged.
+4. Install only the exact version and SHA-256 digest the user confirmed.
+5. Validate the Release in a temporary directory before switching the installation.
+6. Leave the original installation in place when any pre-switch step fails; restore it when a switch-stage check fails.
+7. After success, tell the user to reload the current AI tool's Skills or Plugin or start a new session.
+
+Do not check for updates at tool startup or during ordinary testing work. Do not scan or update copies belonging to other AI tools.
+
 ## Optional XMind Export
 
 `xmind-export` creates `02-测试用例.xmind` as a one-way derivative of the authoritative `02-测试用例.md`.

@@ -1,6 +1,6 @@
 ---
 name: easy-prd-testing
-description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, optional native XMind test-case export, execution gates, priority-based execution, evidence, aggregation, or regression testing.
+description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, optional native XMind test-case export, execution gates, priority-based execution, evidence, aggregation, regression testing, or a safe update of the complete Easy PRD Testing installation.
 ---
 
 # Easy PRD Testing
@@ -18,6 +18,7 @@ This is the parent entry point for the Easy PRD Testing plugin. It determines th
 - Browser verification, field comparison, evidence capture, or priority execution: use `test-execution`.
 - Root execution or defect summary generation: use `result-aggregation`.
 - Defect fix verification, rerun after bug fix, regression script execution, or regression status update: use `regression-testing`.
+- Easy PRD Testing Skill or Plugin version checks, updates, upgrades, or latest-release requests: use `self-update`.
 
 ## Hard Gates
 
@@ -28,6 +29,7 @@ This is the parent entry point for the Easy PRD Testing plugin. It determines th
 5. Do not execute pages until environment address, test path, login mode, account handling, execution mode, and high-risk authorization are confirmed.
 6. Do not let child agents write outside their assigned priority directory.
 7. Do not start regression testing until a defect ID, test case ID, priority, or explicit user-confirmed regression scope is known.
+8. Do not update the installed Skills while this conversation is in execution-gate, test-execution, result-aggregation, or regression-testing.
 
 ## Visible Task List
 

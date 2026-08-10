@@ -1,6 +1,6 @@
 ---
 name: easy-prd-testing
-description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, optional native XMind test-case export, execution gates, priority-based execution, evidence, aggregation, and regression testing.
+description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, optional native XMind test-case export, execution gates, priority-based execution, evidence, aggregation, regression testing, or a safe update of the complete Easy PRD Testing installation.
 ---
 
 # Easy PRD Testing
@@ -18,6 +18,7 @@ When this skill is installed from the repository root, use the stage instruction
 - Test execution: `skills/test-execution/SKILL.md`
 - Regression testing: `skills/regression-testing/SKILL.md`
 - Result aggregation: `skills/result-aggregation/SKILL.md`
+- Complete installation updates: `skills/self-update/SKILL.md`
 
 Read the relevant stage file before executing that stage.
 
@@ -30,6 +31,7 @@ Read the relevant stage file before executing that stage.
 - Browser verification, field comparison, evidence capture, or priority execution: follow `skills/test-execution/SKILL.md`.
 - Root execution or defect summary generation: follow `skills/result-aggregation/SKILL.md`.
 - Defect fix verification, rerun after bug fix, regression script execution, or regression status update: follow `skills/regression-testing/SKILL.md`.
+- Easy PRD Testing Skill or Plugin version checks, updates, upgrades, or latest-release requests: follow `skills/self-update/SKILL.md`.
 
 ## Hard Gates
 
@@ -40,6 +42,7 @@ Read the relevant stage file before executing that stage.
 5. Do not execute pages until environment address, test path, login mode, account handling, execution mode, and high-risk authorization are confirmed.
 6. Do not let child agents write outside their assigned priority directory.
 7. Do not start regression testing until a defect ID, test case ID, priority, or explicit user-confirmed regression scope is known.
+8. Do not update the installed Skills while this conversation is in execution-gate, test-execution, result-aggregation, or regression-testing.
 
 ## Visible Task List
 

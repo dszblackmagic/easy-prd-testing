@@ -1,0 +1,166 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 18
+
+      - name: Validate plugin
+        shell: bash
+        run: scripts/validate-plugin.sh
+
+  publish:
+    name: Publish verified release
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 18
+
+      - name: Build release package
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          node scripts/build-release.mjs package \
+            --tag "$RELEASE_TAG" \
+            --output-dir dist
+
+      - name: Create or refresh draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          notes_file="docs/releases/${RELEASE_TAG}.md"
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --draft \
+              --latest=false \
+              --title "Easy PRD Testing ${RELEASE_TAG}" \
+              --notes-file "$notes_file"
+          else
+            gh release create "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --verify-tag \
+              --draft \
+              --latest=false \
+              --title "Easy PRD Testing ${RELEASE_TAG}" \
+              --notes-file "$notes_file"
+          fi
+
+      - name: Upload package and read GitHub digest
+        id: asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          asset_name="easy-prd-testing-${RELEASE_TAG}.tar.gz"
+          gh release upload "$RELEASE_TAG" "dist/${asset_name}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
+
+          asset_digest="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+            --jq ".assets[] | select(.name == \"${asset_name}\") | .digest")"
+          asset_size="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+            --jq ".assets[] | select(.name == \"${asset_name}\") | .size")"
+
+          if [[ ! "$asset_digest" =~ ^sha256:[a-f0-9]{64}$ ]]; then
+            printf 'GitHub did not return a valid SHA-256 digest for %s\n' "$asset_name" >&2
+            exit 1
+          fi
+          local_digest="$(node -p 'JSON.parse(require("fs").readFileSync("dist/release-metadata.json", "utf8")).localDigest')"
+          local_size="$(node -p 'JSON.parse(require("fs").readFileSync("dist/release-metadata.json", "utf8")).assetSize')"
+          if [[ "$asset_digest" != "$local_digest" || "$asset_size" != "$local_size" ]]; then
+            printf 'Uploaded asset metadata differs from the verified local package.\n' >&2
+            exit 1
+          fi
+          printf 'digest=%s\n' "$asset_digest" >> "$GITHUB_OUTPUT"
+          printf 'size=%s\n' "$asset_size" >> "$GITHUB_OUTPUT"
+
+      - name: Generate and upload update manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          ASSET_DIGEST: ${{ steps.asset.outputs.digest }}
+          ASSET_SIZE: ${{ steps.asset.outputs.size }}
+        run: |
+          set -euo pipefail
+          node scripts/build-release.mjs manifest \
+            --metadata dist/release-metadata.json \
+            --asset-digest "$ASSET_DIGEST" \
+            --asset-size "$ASSET_SIZE" \
+            --output-dir dist
+          gh release upload "$RELEASE_TAG" dist/latest.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
+
+      - name: Verify release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          asset_name="easy-prd-testing-${RELEASE_TAG}.tar.gz"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+            --jq '[.assets[].name] | sort | .[]' > dist/github-assets.txt
+          grep -Fx "$asset_name" dist/github-assets.txt
+          grep -Fx "latest.json" dist/github-assets.txt
+          node -e '
+            const fs = require("fs");
+            const manifest = JSON.parse(fs.readFileSync("dist/latest.json", "utf8"));
+            if (manifest.version !== process.env.RELEASE_TAG.replace(/^v/, "")) process.exit(1);
+            if (manifest.asset.name !== `easy-prd-testing-${process.env.RELEASE_TAG}.tar.gz`) process.exit(1);
+          '
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          gh release edit "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --draft=false \
+            --prerelease=false \
+            --latest \
+            --title "Easy PRD Testing ${RELEASE_TAG}" \
+            --notes-file "docs/releases/${RELEASE_TAG}.md"

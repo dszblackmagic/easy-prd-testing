@@ -165,6 +165,7 @@ validate_skill_frontmatter "SKILL.md" "easy-prd-testing" || fail "invalid root S
 
 skills_path="$(json_value "$PLUGIN_JSON" "skills")" || fail "invalid JSON or missing string field: skills"
 [[ "$skills_path" == "./skills/" ]] || fail "plugin.json skills must be ./skills/"
+plugin_version="$(json_value "$PLUGIN_JSON" "version")" || fail "invalid JSON or missing string field: version"
 validate_default_prompt "$PLUGIN_JSON" || fail "plugin.json interface.defaultPrompt must contain 1-3 strings of at most 128 characters"
 
 skills=(
@@ -173,6 +174,7 @@ skills=(
   "prd-intake"
   "regression-testing"
   "result-aggregation"
+  "self-update"
   "test-execution"
   "test-planning"
   "xmind-export"
@@ -205,13 +207,17 @@ done
 
 require_file "README.md"
 require_file "README.en.md"
-require_file "CONTEXT.md"
 require_file "THIRD_PARTY_NOTICES.md"
 require_file "docs/agent-protocol.md"
 require_file "docs/artifact-contract.md"
 require_file "docs/workflow.md"
+require_file "docs/releases/v${plugin_version}.md"
+require_file "scripts/easy-prd-testing.mjs"
+require_file "scripts/build-release.mjs"
 require_file "scripts/check-deps.sh"
+require_file "scripts/test-self-update.mjs"
 require_file "scripts/test-xmind-export.mjs"
+require_file "skills/self-update/agents/openai.yaml"
 require_file "skills/xmind-export/agents/openai.yaml"
 require_file "skills/xmind-export/scripts/create_xmind.mjs"
 require_file "skills/xmind-export/scripts/export_test_cases.mjs"
@@ -222,10 +228,20 @@ actual_xmind_creator_sha="$(sha256_file "skills/xmind-export/scripts/create_xmin
 [[ "$actual_xmind_creator_sha" == "$expected_xmind_creator_sha" ]] || fail "vendored create_xmind.mjs differs from the pinned upstream snapshot"
 
 if command -v node >/dev/null 2>&1; then
+  node --check "scripts/easy-prd-testing.mjs"
+  node --check "scripts/build-release.mjs"
+  node --check "scripts/test-self-update.mjs"
+  node "scripts/easy-prd-testing.mjs" validate --json >/dev/null
+  if [[ -e ".git" ]]; then
+    node "scripts/build-release.mjs" verify-manifest --tag "v${plugin_version}" --include-untracked
+  fi
   node --check "skills/xmind-export/scripts/create_xmind.mjs"
   node --check "skills/xmind-export/scripts/export_test_cases.mjs"
   node --check "scripts/test-xmind-export.mjs"
   node "scripts/test-xmind-export.mjs"
+  if [[ "${EASY_PRD_TESTING_SKIP_UPDATE_TESTS:-0}" != "1" ]]; then
+    node "scripts/test-self-update.mjs"
+  fi
 else
   printf 'Plugin validation warning: node not found; skipped optional XMind runtime tests.\n' >&2
 fi
