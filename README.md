@@ -2,213 +2,214 @@
 
 [中文](README.md) | [English](README.en.md)
 
-Easy PRD Testing 是一个面向 Codex 的 PRD / 原型驱动自动化自测插件。它把一个模块从产品资料输入、需求澄清、测试规划、执行前确认、浏览器自动化验证、证据沉淀、结果汇总，一直串联到缺陷修复后的回归验证。
+Easy PRD Testing 是一套面向 AI 编码工具的 PRD / 原型驱动自动化自测 Skills。它把产品资料输入、需求澄清、测试规划、执行确认、自动化验证、证据与缺陷汇总，以及缺陷修复后的回归测试串成一条可确认、可追踪的流程。
 
 ## 适用场景
 
-- 你有 PRD、产品说明、原型图或字段基线，希望自动生成测试规划。
-- 你希望把生成的测试用例按需导出为可直接打开的原生 XMind 文件，辅助评审用例覆盖。
-- 你希望在执行前逐步确认测试地址、账号密码、登录方式和执行范围。
-- 你希望自动化执行过程中持续看到 task-list 风格的进度。
-- 你希望按 P0-P3 优先级拆分多 agent 执行，并汇总缺陷与证据。
-- 你希望缺陷修复后优先复用 Playwright Test 脚本做长期回归。
+- 根据 PRD、产品说明、原型图、截图或字段基线生成测试规划。
+- 在执行前逐步确认测试地址、登录方式、账号、范围和风险授权。
+- 按 P0-P3 组织自动化测试，并沉淀执行记录、缺陷和证据。
+- 按需把 Markdown 测试用例导出为原生 XMind，辅助用例评审。
+- 缺陷修复后优先复用 Playwright Test 脚本进行回归验证。
 
-## 安装
+## 主要流程
 
-推荐将本仓库作为完整 Codex Plugin 使用，而不是只复制单个 skill。完整插件会保留父级编排、阶段路由、产物目录契约和执行进度展示。
+完整流程默认从 `easy-prd-testing` 父 Skill 启动，由它按节点调用其他 Skills：
 
-### 作为 Codex Skill 安装
+```mermaid
+flowchart LR
+    A[PRD / 原型 / 产品资料] --> B[prd-intake<br/>分析与澄清]
+    B --> C[test-planning<br/>生成 01-04]
+    C -. 用户选择导出 .-> X[xmind-export<br/>生成 XMind]
+    C --> D{01-04 已完整生成<br/>并由用户明确确认?}
+    D -- 否 --> C
+    D -- 是 --> E[execution-gate<br/>确认环境与授权]
+    E --> F[test-execution<br/>按 P0-P3 执行]
+    F --> G[result-aggregation<br/>汇总结果与缺陷]
+    G --> H{缺陷修复后<br/>需要回归?}
+    H -- 是 --> I[regression-testing<br/>脚本优先回归]
+    H -- 否 --> J[完成]
+    I --> J
+```
 
-如果你希望直接把远端仓库地址交给 Codex 安装，可以这样描述：
+> `02-测试用例.xmind` 是可选评审视图，`02-测试用例.md` 始终是唯一权威源。无论是否导出 XMind，执行前都必须完整生成并明确确认 `01-04`。
+
+## 让 AI 一键安装
+
+复制与你当前工具匹配的提示词交给 AI。安装时应保留整个仓库，不要只复制某一个阶段 Skill。
+
+### 通用 AI 编码工具
 
 ```text
-请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing skill，安装路径使用仓库根目录 "."，skill 名称使用 easy-prd-testing。
+请安装并配置整个 Easy PRD Testing 仓库：
+https://github.com/dszblackmagic/easy-prd-testing
+
+请先识别当前 AI 编码工具支持的 Skill 或 Plugin 机制，再按该工具的官方约定完成安装。保留仓库根 SKILL.md、skills/ 下的全部阶段 Skills、模板和 scripts/，不要只复制单个 Skill。检测到同名旧版本时，覆盖或迁移前先征得我的确认。安装后运行 scripts/validate-plugin.sh；如果缺少依赖，只告诉我安装方法，不要自动安装。最后告诉我安装位置、采用的安装形态，以及如何启动完整测试流程。
 ```
 
-对应的安装器参数是：
+### Codex：安装为 Skill
 
-```bash
-install-skill-from-github.py --repo dszblackmagic/easy-prd-testing --path . --name easy-prd-testing
+适合希望直接通过 `$easy-prd-testing` 使用完整流程的用户：
+
+```text
+$skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing。使用仓库根目录 "." 作为 Skill，保留根 SKILL.md、skills/、模板和 scripts/ 的完整目录结构。检测到同名安装时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。完成后告诉我安装位置，并确认可以通过 $easy-prd-testing 启动。
 ```
 
-安装后需要重启 Codex，让新 skill 生效。
+### Codex：安装为 Plugin
 
-### 作为 Codex Plugin 使用
+适合希望通过 Codex Plugin 载入全部阶段 Skills 的用户：
+
+```text
+请把 https://github.com/dszblackmagic/easy-prd-testing 安装为完整 Codex Plugin。请保留 .codex-plugin/plugin.json、skills/、模板和 scripts/，按照当前 Codex 的本地 Plugin 与 marketplace 约定完成配置和安装。检测到同名 Plugin 时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh，并用 Codex 的插件列表确认 easy-prd-testing 可见。缺少依赖时只提示，不要自动安装。最后告诉我安装位置和启动方式。
+```
+
+### Claude Code：安装整套 Skills
+
+```text
+请把 https://github.com/dszblackmagic/easy-prd-testing 安装到当前 Claude Code 环境，使用 Claude Code 当前支持的 Agent Skills 目录和加载约定。请安装整个仓库并保留根 SKILL.md、skills/ 下的全部阶段 Skills、模板和 scripts/，确保父 Skill 能继续读取相对路径中的阶段说明。检测到同名旧版本时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。最后告诉我安装位置，以及如何调用 easy-prd-testing。
+```
+
+### 其他支持 `SKILL.md` 的工具
+
+优先使用上面的“通用 AI 编码工具”提示词。不同工具对 Skills 的扫描目录、显式调用语法和脚本权限可能不同；README 不对未实际验证的工具承诺原生安装体验。不支持 Agent Skills 的工具仍可读取本仓库说明，并按同一流程执行任务。
+
+完整流程需要能够读取本地文件并运行脚本的 AI 编码环境。XMind 导出需要 Node.js 18 或更高版本；缺少依赖时应提示用户安装，不自动安装。
+
+<details>
+<summary>手动下载和验证</summary>
 
 ```bash
-git clone git@github.com:dszblackmagic/easy-prd-testing.git
+git clone https://github.com/dszblackmagic/easy-prd-testing.git
 cd easy-prd-testing
 scripts/validate-plugin.sh
 ```
 
-然后在你的 Codex 本地插件配置中引用这个仓库目录，使 Codex 能读取：
+下载后，再按当前 AI 工具的官方约定引用该目录。
+
+</details>
+
+## 30 秒快速开始
+
+完成安装后，可以直接给出 PRD 路径和模块名：
 
 ```text
-.codex-plugin/plugin.json
-skills/
+$easy-prd-testing 请根据 /path/to/订单管理-PRD.md，为订单管理模块生成自动化测试规划，输出根目录使用 /path/to/output，并在开始执行前逐步向我确认测试环境、账号和执行范围。
 ```
 
-如果你只想研究某个阶段，也可以直接查看 `skills/<skill-name>/SKILL.md`，但日常使用建议通过 `easy-prd-testing` 父 skill 启动完整链路。
+也可以附加原型截图、产品说明、现有测试用例或字段基线。Skill 会先澄清不明确的内容，再进入规划和执行准备。
 
-## 快速开始
+### 常用调用模板
 
-在 Codex 中输入类似请求：
+完整链路：
 
 ```text
-使用 easy-prd-testing，根据这个 PRD 为订单管理模块生成自动化测试规划，并在执行前逐步向我确认测试环境、账号和执行范围。
+使用 easy-prd-testing，根据 <PRD 或原型路径> 为 <模块名> 规划并执行自动化测试，产物输出到 <输出根目录>；所有执行门禁逐步向我确认。
 ```
 
-你可以提供：
+只生成测试规划：
 
-- PRD 文档路径。
-- 原型图或截图。
-- 产品说明文本。
-- 现有测试用例或字段基线。
+```text
+使用 easy-prd-testing 的 test-planning 阶段，根据已确认的需求为 <模块名> 生成 01-04 测试规划，输出根目录为 <输出根目录>，暂不执行测试。
+```
 
-插件会先分析资料中不明确的地方，并通过问题向你确认；确认后才会进入测试规划和执行准备。
+单独导出 XMind：
 
-## 完整使用教程
+```text
+使用 easy-prd-testing 的 xmind-export 阶段，把 <测试用例 Markdown 或模块目录> 导出为原生 XMind，并保持源 Markdown 不变。
+```
 
-### 1. 输入产品资料
+缺陷修复后回归：
 
-从 PRD、原型图、产品说明或已有测试资料开始。`prd-intake` 会识别模块范围、关键流程、字段、权限、状态和异常场景，并把不明确内容整理成待确认问题。
+```text
+使用 easy-prd-testing 的 regression-testing 阶段，对 <缺陷 ID、用例 ID 或优先级范围> 执行回归，并更新对应回归记录与缺陷状态。
+```
+
+## 每个 Skill 在何时使用
+
+| Skill | 使用节点 | 路由方式 | 主要结果 |
+| --- | --- | --- | --- |
+| `easy-prd-testing` | 需要从资料输入走到执行、汇总或回归时 | 完整流程的默认入口 | 阶段路由与可见任务进度 |
+| `prd-intake` | 刚收到 PRD、原型、截图或产品说明时 | 完整流程自动进入；也可单独分析 | 模块范围、关键流程与澄清结论；条件满足时生成 `00-资料分析与待确认问题.md` |
+| `test-planning` | 需求范围和输出目录确认后 | 完整流程自动进入；也可只生成规划 | `01-模块拆解.md` 至 `04-测试数据与账号.md` |
+| `xmind-export` | 用例生成后，希望使用 XMind 评审时 | 完整流程中可选；也可独立调用 | 与源 Markdown 同目录的原生 `.xmind` |
+| `execution-gate` | `01-04` 完整且经用户明确确认后 | 完整执行链路的必经节点 | 环境、账号、范围、数据修改与风险授权确认 |
+| `test-execution` | 执行门禁全部通过后 | 完整流程自动进入 | P0-P3 执行记录、缺陷和证据 |
+| `result-aggregation` | 各优先级执行结束后 | 完整流程自动进入 | 根级执行与缺陷汇总 |
+| `regression-testing` | 缺陷修复且回归范围明确后 | 按需独立触发 | 回归记录与缺陷状态更新 |
+
+调用原则很简单：完整测试默认调用 `easy-prd-testing`；只有独立分析需求、生成规划、导出 XMind 或执行回归时，才指定对应阶段。若当前安装形态单独暴露了阶段 Skill，可以直接调用；否则仍调用父 Skill 并在提示词中写明阶段名。
+
+## 各阶段会做什么
+
+### 1. 分析并澄清产品资料
+
+`prd-intake` 从 PRD、原型、产品说明或已有测试资料中识别模块范围、关键流程、字段、权限、状态和异常场景，并逐项确认不明确内容。
 
 ### 2. 生成测试规划
 
-`test-planning` 会先询问测试产物输出根目录，然后在固定目录下生成规划文件：
+`test-planning` 确认模块名和输出根目录后，在固定目录生成 `01-04`：
 
 ```text
 <output-root>/easy-prd-testing/testing/<module-name>/
 ```
 
-规划阶段产物包括：
+生成完成后，用户可以选择调用 `xmind-export` 补充原生 XMind 评审视图。XMind 导出失败或被跳过，不会改变 `01-04` 的执行确认要求。
 
-- `01-模块拆解.md`
-- `02-测试用例.md`
-- `03-执行清单.md`
-- `04-测试数据与账号.md`
+### 3. 确认执行条件
 
-生成 `01-04` 后，插件会询问是否补充原生 `02-测试用例.xmind`。该文件是可选的单向派生产物，按 `P0-P3` 和用例模块组织；`02-测试用例.md` 始终是唯一权威源。跳过或导出失败不会改变原有 `01-04` 确认门禁。
+用户明确确认 `01-04` 后，`execution-gate` 再逐步确认测试地址、登录方式、测试账号、数据准备、执行范围、优先级、数据修改权限和高风险操作授权。任何必要信息缺失时都不会直接执行。
 
-### 3. 执行前确认
+### 4. 执行并保留证据
 
-`execution-gate` 会逐步确认：
+`test-execution` 支持单 agent 或按 P0-P3 拆分执行，并持续更新可见任务进度。执行记录、缺陷、截图、视频和脚本分别写入对应优先级目录。
 
-- 测试地址。
-- 登录方式。
-- 是否需要账号密码。
-- 测试账号与数据准备方式。
-- 执行范围和优先级。
-- 是否允许修改数据。
-- 执行后端策略。
+### 5. 汇总测试结果
 
-在 `01-04` 文件未生成、未确认或关键信息缺失时，不会直接开始执行。
+`result-aggregation` 汇总各优先级的通过情况、阻塞项、缺陷和证据索引，形成模块级结论。
 
-### 4. 自动化执行
+### 6. 缺陷修复后回归
 
-`test-execution` 支持单 agent 执行，也支持按 P0-P3 优先级拆分多 agent 执行。完整链路会展示类似 task-list 的进度，让你看到哪些阶段已完成、哪些任务仍在执行。
+`regression-testing` 在回归目标明确后，优先复用已有 Playwright Test 脚本验证修复结果，并更新回归记录和缺陷状态。更具体的执行与诊断升级规则见 [`docs/agent-protocol.md`](docs/agent-protocol.md)。
 
-浏览器自动化默认优先使用更轻量的执行方式；失败诊断时再升级到 Chrome DevTools CLI；Chrome DevTools MCP 只作为最后兜底。
+## 产物、门禁与参考
 
-### 5. 结果汇总
-
-执行结果会按优先级写入：
-
-```text
-执行结果/P0/
-执行结果/P1/
-执行结果/P2/
-执行结果/P3/
-```
-
-每个优先级目录包含：
-
-- `05-执行记录.md`
-- `06-缺陷记录.md`
-- `screenshots/`
-- `videos/`
-- `scripts/`
-
-`result-aggregation` 会再汇总根级执行记录和缺陷记录，方便查看整体通过率、阻塞项和缺陷分布。
-
-### 6. 回归测试
-
-缺陷修复后，可以使用 `regression-testing` 独立执行回归链路。它会优先运行已沉淀的 Playwright Test 脚本；只有脚本结果不足以判断时，才升级到 `agent-browser` 复核，再按需要使用 Chrome DevTools CLI 或 MCP 做诊断。
-
-回归产物直接放在对应优先级目录下，与 `05-执行记录.md`、`06-缺陷记录.md` 同层：
-
-```text
-执行结果/P0/07-回归记录.md
-执行结果/P0/08-回归缺陷状态.md
-执行结果/P0/regression-screenshots/
-执行结果/P0/regression-videos/
-执行结果/P0/regression-traces/
-执行结果/P0/regression-scripts/
-```
-
-## 内置 Skills
-
-- `easy-prd-testing`：父级编排、阶段路由和 task-list 进度展示。
-- `prd-intake`：PRD / 原型资料分析和澄清问题生成。
-- `test-planning`：生成测试规划文档，并确认输出目录。
-- `xmind-export`：按用户选择，把标准或旧格式 Markdown 用例表导出为原生 XMind 评审视图。
-- `execution-gate`：执行前确认测试地址、账号、范围和风险授权。
-- `test-execution`：执行页面验证、证据捕获和缺陷记录。
-- `regression-testing`：缺陷修复后的脚本优先回归验证。
-- `result-aggregation`：汇总执行记录、缺陷记录和回归状态。
-
-## 辅助脚本
-
-验证插件结构：
-
-```bash
-scripts/validate-plugin.sh
-```
-
-创建测试产物目录：
-
-```bash
-scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
-```
-
-从任意 Markdown 文件或模块目录单独导出 XMind：
-
-```bash
-node skills/xmind-export/scripts/export_test_cases.mjs \
-  --input "/path/to/模块目录或测试用例.md"
-```
-
-导出器支持相对路径、非标准文件名、多张用例表和旧列名；缺少 `01-模块拆解.md`、`F-xxx` 或部分用例字段时以 warning 完成导出，不修改原 Markdown。脚手架不会创建空白 XMind；辅助脚本不打开浏览器、执行测试或判断缺陷。
-
-## 产物目录契约
-
-所有测试产物都必须位于：
+所有标准测试产物都位于：
 
 ```text
 <output-root>/easy-prd-testing/testing/<module-name>/
+├── 01-模块拆解.md
+├── 02-测试用例.md
+├── 02-测试用例.xmind          # 可选，不属于执行门禁
+├── 03-执行清单.md
+├── 04-测试数据与账号.md
+└── 执行结果/
+    ├── P0/
+    ├── P1/
+    ├── P2/
+    └── P3/
 ```
 
-固定的 `easy-prd-testing` 目录用于隔离本插件产物，避免和业务项目自身文档混在一起。
+开始执行前必须满足两层条件：`01-04` 文件完整且经过用户明确确认；测试环境、账号、范围及风险授权也已确认。单独使用 `xmind-export` 时不受标准产物目录限制。
 
-必需规划产物仍为 `01-04`。可选的 XMind 与源 Markdown 同目录，不属于执行门禁文件；单独使用 `xmind-export` 时不受上述规划产物目录限制。
+更多细节：
 
-## 文档索引
-
-- `docs/workflow.md`：完整阶段流转、执行 gate 和 task-list 规则。
-- `docs/artifact-contract.md`：生成文档、证据目录和回归产物契约。
-- `docs/agent-protocol.md`：单 agent、多 agent、浏览器执行和诊断升级规则。
-
-## 贡献
-
-提交前请运行：
-
-```bash
-scripts/validate-plugin.sh
-bash -n scripts/validate-plugin.sh scripts/scaffold-testing-docs.sh
-```
-
-贡献规范见 `AGENTS.md`。
+- [`docs/workflow.md`](docs/workflow.md)：完整阶段流转、执行门禁和任务进度规则。
+- [`docs/artifact-contract.md`](docs/artifact-contract.md)：规划文档、证据目录和回归产物契约。
+- [`docs/agent-protocol.md`](docs/agent-protocol.md)：单 agent、多 agent、浏览器执行和诊断升级规则。
 
 ## License
 
 MIT
+
+## 感谢与参与
+
+感谢你试用 Easy PRD Testing。如果这套流程对你有帮助，欢迎为项目点一个 [Star](https://github.com/dszblackmagic/easy-prd-testing)。
+
+遇到问题或有改进建议，欢迎提交 [GitHub Issue](https://github.com/dszblackmagic/easy-prd-testing/issues)。尤其期待以下反馈：
+
+- 不同 AI 编码工具的安装与调用兼容性。
+- 从 PRD 到测试执行过程中缺失或不合理的节点。
+- 测试产物、执行门禁和多 agent 协作体验。
+- Markdown 用例与 XMind 导出结果。
+
+每一条真实使用反馈，都会帮助这套 Skills 变得更可靠、更容易使用。

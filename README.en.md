@@ -2,213 +2,214 @@
 
 [中文](README.md) | [English](README.en.md)
 
-Easy PRD Testing is a Codex plugin for PRD / prototype-driven automation self-testing. It connects a module workflow from product material intake, requirement clarification, test planning, execution prerequisite confirmation, browser automation verification, evidence capture, result aggregation, and defect-fix regression verification.
+Easy PRD Testing is a suite of PRD / prototype-driven automation testing skills for AI coding tools. It connects product material intake, requirement clarification, test planning, execution confirmation, automated verification, evidence and defect aggregation, and post-fix regression into one confirmable and traceable workflow.
 
-## Use Cases
+## When To Use It
 
-- You have a PRD, product specification, prototype image, or field baseline and want to generate test planning artifacts automatically.
-- You want to optionally export generated test cases as a native XMind file for coverage review.
-- You want the workflow to confirm the test URL, account credentials, login mode, and execution scope before execution.
-- You want task-list style progress during automation execution.
-- You want P0-P3 priority-based multi-agent execution with consolidated defects and evidence.
-- You want long-term regression coverage through Playwright Test scripts after defects are fixed.
+- Generate test planning artifacts from a PRD, product specification, prototype, screenshot, or field baseline.
+- Confirm the test URL, login method, account, scope, and risk authorization before execution.
+- Organize automation tests by P0-P3 and preserve execution records, defects, and evidence.
+- Optionally export Markdown test cases to a native XMind file for review.
+- Reuse Playwright Test scripts first when verifying defect fixes.
 
-## Installation
+## Main Workflow
 
-Use this repository as a complete Codex Plugin instead of copying a single skill. The complete plugin preserves parent orchestration, stage routing, artifact path contracts, and visible execution progress.
+Start a complete run from the `easy-prd-testing` parent skill. It routes work to the stage skills at the appropriate nodes:
 
-### Install As A Codex Skill
+```mermaid
+flowchart LR
+    A[PRD / prototype / product material] --> B[prd-intake<br/>analyze and clarify]
+    B --> C[test-planning<br/>generate 01-04]
+    C -. user opts in .-> X[xmind-export<br/>generate XMind]
+    C --> D{Are 01-04 complete<br/>and explicitly confirmed?}
+    D -- No --> C
+    D -- Yes --> E[execution-gate<br/>confirm environment and authorization]
+    E --> F[test-execution<br/>run by P0-P3]
+    F --> G[result-aggregation<br/>summarize results and defects]
+    G --> H{Regression needed<br/>after a fix?}
+    H -- Yes --> I[regression-testing<br/>script-first regression]
+    H -- No --> J[Done]
+    I --> J
+```
 
-If you want to give Codex the remote repository URL directly, describe the install request like this:
+> `02-测试用例.xmind` is an optional review view. `02-测试用例.md` always remains the single source of truth. Whether or not XMind is exported, all `01-04` artifacts must be complete and explicitly confirmed before execution.
+
+## Let AI Install It For You
+
+Copy the prompt that matches your current tool and give it to the AI. The installation should preserve the whole repository instead of copying only one stage skill.
+
+### General AI Coding Tools
 
 ```text
-Install the easy-prd-testing skill from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." and the skill name easy-prd-testing.
+Install and configure the complete Easy PRD Testing repository:
+https://github.com/dszblackmagic/easy-prd-testing
+
+First identify the Skill or Plugin mechanism supported by the current AI coding tool, then install the repository according to that tool's official conventions. Preserve the root SKILL.md, every stage skill under skills/, all templates, and scripts/; do not copy only one skill. If an installation with the same name already exists, ask me before replacing or migrating it. Run scripts/validate-plugin.sh after installation. If a dependency is missing, tell me how to install it but do not install it automatically. Finally, report the install location, install type, and how to start the complete testing workflow.
 ```
 
-The corresponding installer arguments are:
+### Codex: Install As A Skill
 
-```bash
-install-skill-from-github.py --repo dszblackmagic/easy-prd-testing --path . --name easy-prd-testing
+Use this option when you want to start the complete workflow directly through `$easy-prd-testing`:
+
+```text
+$skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." as the skill and preserve the complete structure containing the root SKILL.md, skills/, templates, and scripts/. If an installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. When finished, tell me the install location and confirm that I can start it with $easy-prd-testing.
 ```
 
-Restart Codex after installation so the new skill is loaded.
+### Codex: Install As A Plugin
 
-### Use As A Codex Plugin
+Use this option when you want Codex Plugin loading for all stage skills:
+
+```text
+Install https://github.com/dszblackmagic/easy-prd-testing as a complete Codex Plugin. Preserve .codex-plugin/plugin.json, skills/, templates, and scripts/, then configure and install it according to the current Codex local Plugin and marketplace conventions. If a Plugin with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation and confirm that easy-prd-testing appears in the Codex plugin list. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to start the workflow.
+```
+
+### Claude Code: Install The Complete Skill Suite
+
+```text
+Install https://github.com/dszblackmagic/easy-prd-testing in the current Claude Code environment using Claude Code's currently supported Agent Skills directory and loading conventions. Install the complete repository and preserve the root SKILL.md, every stage skill under skills/, all templates, and scripts/ so the parent skill can continue to read stage instructions through their relative paths. If an older installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to invoke easy-prd-testing.
+```
+
+### Other Tools With `SKILL.md` Support
+
+Start with the “General AI Coding Tools” prompt above. Skill discovery directories, explicit invocation syntax, and script permissions vary between tools, so this README does not promise native installation on tools that have not been tested. Tools without Agent Skills support can still read this repository and follow the same workflow.
+
+The complete workflow requires an AI coding environment that can read local files and run scripts. XMind export requires Node.js 18 or later. Missing dependencies should be reported to the user, not installed automatically.
+
+<details>
+<summary>Manual download and validation</summary>
 
 ```bash
-git clone git@github.com:dszblackmagic/easy-prd-testing.git
+git clone https://github.com/dszblackmagic/easy-prd-testing.git
 cd easy-prd-testing
 scripts/validate-plugin.sh
 ```
 
-Then reference this repository directory from your local Codex plugin configuration so Codex can read:
+After downloading, reference the directory using the current AI tool's official conventions.
+
+</details>
+
+## 30-Second Quick Start
+
+After installation, provide the PRD path and module name directly:
 
 ```text
-.codex-plugin/plugin.json
-skills/
+$easy-prd-testing Use /path/to/order-management-prd.md to generate an automation test plan for the Order Management module. Use /path/to/output as the output root, and confirm the test environment, account, and execution scope with me step by step before execution.
 ```
 
-If you only want to inspect one stage, read `skills/<skill-name>/SKILL.md` directly. For daily usage, start from the `easy-prd-testing` parent skill so the full workflow remains intact.
+You can also attach prototype screenshots, product notes, existing test cases, or a field baseline. The skill clarifies ambiguous content before planning and execution preparation.
 
-## Quick Start
+### Common Prompt Templates
 
-In Codex, use a request like:
+Complete workflow:
 
 ```text
-Use easy-prd-testing to generate an automation test plan for the Order Management module from this PRD, and ask me step by step for the test environment, account, and execution scope before running tests.
+Use easy-prd-testing to plan and execute automated tests for <module name> from <PRD or prototype path>. Write artifacts under <output root>, and confirm every execution gate with me step by step.
 ```
 
-You can provide:
+Planning only:
 
-- A PRD document path.
-- Prototype images or screenshots.
-- Product specification text.
-- Existing test cases or field baselines.
+```text
+Use the test-planning stage of easy-prd-testing to generate the 01-04 planning artifacts for <module name> from the confirmed requirements. Use <output root> as the output root and do not execute tests yet.
+```
 
-The plugin first analyzes unclear parts in the material and asks clarification questions. It only proceeds to planning and execution preparation after the required information is confirmed.
+Standalone XMind export:
 
-## Full Usage Tutorial
+```text
+Use the xmind-export stage of easy-prd-testing to convert <test-case Markdown file or module directory> to a native XMind file without changing the source Markdown.
+```
 
-### 1. Provide Product Material
+Post-fix regression:
 
-Start with a PRD, prototype image, product specification, or existing testing material. `prd-intake` identifies module scope, key flows, fields, permissions, states, and exception scenarios, then turns unclear items into clarification questions.
+```text
+Use the regression-testing stage of easy-prd-testing to run regression for <defect ID, test-case ID, or priority scope>, then update the matching regression records and defect status.
+```
+
+## When Each Skill Is Used
+
+| Skill | Workflow node | Routing | Primary result |
+| --- | --- | --- | --- |
+| `easy-prd-testing` | When work should run from material intake through execution, aggregation, or regression | Default entry for the complete workflow | Stage routing and visible task progress |
+| `prd-intake` | When a PRD, prototype, screenshot, or product note first arrives | Automatic in the complete workflow; can analyze independently | Module scope, key flows, and clarification conclusions; `00-资料分析与待确认问题.md` when its prerequisites are met |
+| `test-planning` | After requirement scope and output location are confirmed | Automatic in the complete workflow; can generate planning only | `01-模块拆解.md` through `04-测试数据与账号.md` |
+| `xmind-export` | After cases exist and an XMind review view is wanted | Optional in the complete workflow; can run independently | Native `.xmind` beside the source Markdown |
+| `execution-gate` | After `01-04` are complete and explicitly confirmed | Required node in every execution workflow | Environment, account, scope, mutation, and risk authorization |
+| `test-execution` | After every execution gate passes | Automatic in the complete workflow | P0-P3 execution records, defects, and evidence |
+| `result-aggregation` | After priority-based execution finishes | Automatic in the complete workflow | Root execution and defect summaries |
+| `regression-testing` | After a defect is fixed and the regression scope is known | Independent, on-demand entry | Regression records and defect status updates |
+
+The invocation rule is simple: use `easy-prd-testing` for a complete test workflow and name a stage only for independent requirement analysis, planning, XMind export, or regression. If the selected install type exposes stage skills individually, invoke one directly; otherwise invoke the parent skill and name the stage in the prompt.
+
+## What Happens At Each Stage
+
+### 1. Analyze And Clarify Product Material
+
+`prd-intake` identifies module scope, key flows, fields, permissions, states, and exception scenarios from PRDs, prototypes, product notes, or existing test materials, then confirms ambiguous items one by one.
 
 ### 2. Generate Test Planning Artifacts
 
-`test-planning` first asks for the output root directory, then generates planning files under the fixed path:
+After the module name and output root are confirmed, `test-planning` generates `01-04` under the fixed directory:
 
 ```text
 <output-root>/easy-prd-testing/testing/<module-name>/
 ```
 
-Planning artifacts include:
+The user can then opt into `xmind-export` for a native XMind review view. Skipping or failing XMind export does not change the execution confirmation requirements for `01-04`.
 
-- `01-模块拆解.md`
-- `02-测试用例.md`
-- `03-执行清单.md`
-- `04-测试数据与账号.md`
+### 3. Confirm Execution Conditions
 
-After generating `01-04`, the plugin asks whether to add the native `02-测试用例.xmind` file. This optional one-way derivative is organized by `P0-P3` and test-case module; `02-测试用例.md` remains the only authoritative source. Skipping or failing the export does not change the existing `01-04` confirmation gate.
+After the user explicitly confirms `01-04`, `execution-gate` confirms the test URL, login mode, test account, data preparation, execution scope, priority, mutation permission, and authorization for high-risk actions. Execution does not begin while required information is missing.
 
-### 3. Confirm Execution Prerequisites
+### 4. Execute And Preserve Evidence
 
-`execution-gate` confirms the following step by step:
+`test-execution` supports a single agent or P0-P3 priority-based execution while keeping visible task progress up to date. Execution records, defects, screenshots, videos, and scripts are written to their matching priority directories.
 
-- Test URL.
-- Login mode.
-- Whether account credentials are required.
-- Test account and data preparation method.
-- Execution scope and priority.
-- Whether data mutation is allowed.
-- Execution backend strategy.
+### 5. Aggregate Test Results
 
-Execution does not start when `01-04` files are missing, unconfirmed, or missing critical information.
+`result-aggregation` consolidates pass results, blockers, defects, and evidence indexes from every priority into a module-level conclusion.
 
-### 4. Run Automation Execution
+### 6. Regress After Defect Fixes
 
-`test-execution` supports both single-agent execution and P0-P3 priority-based multi-agent execution. The full workflow shows task-list style progress so you can see completed stages and remaining work.
+Once the regression target is known, `regression-testing` reuses existing Playwright Test scripts first, then updates regression records and defect statuses. See [`docs/agent-protocol.md`](docs/agent-protocol.md) for the detailed execution and diagnostic escalation rules.
 
-Browser automation defaults to a lighter execution method. Failed cases can escalate to Chrome DevTools CLI for diagnosis. Chrome DevTools MCP is reserved as the final fallback.
+## Artifacts, Gates, And References
 
-### 5. Aggregate Results
-
-Execution results are written by priority:
-
-```text
-执行结果/P0/
-执行结果/P1/
-执行结果/P2/
-执行结果/P3/
-```
-
-Each priority directory contains:
-
-- `05-执行记录.md`
-- `06-缺陷记录.md`
-- `screenshots/`
-- `videos/`
-- `scripts/`
-
-`result-aggregation` then creates root-level execution and defect summaries for overall pass rate, blockers, and defect distribution.
-
-### 6. Run Regression Testing
-
-After a defect is fixed, use `regression-testing` as a separate regression workflow. It runs existing Playwright Test scripts first. Only when script output is insufficient for classification does it escalate to `agent-browser`, and then to Chrome DevTools CLI or MCP when deeper diagnosis is required.
-
-Regression artifacts are placed directly in the matching priority directory, at the same level as `05-执行记录.md` and `06-缺陷记录.md`:
-
-```text
-执行结果/P0/07-回归记录.md
-执行结果/P0/08-回归缺陷状态.md
-执行结果/P0/regression-screenshots/
-执行结果/P0/regression-videos/
-执行结果/P0/regression-traces/
-执行结果/P0/regression-scripts/
-```
-
-## Built-In Skills
-
-- `easy-prd-testing`: parent orchestration, stage routing, and task-list progress.
-- `prd-intake`: PRD / prototype material analysis and clarification question generation.
-- `test-planning`: planning artifact generation and output directory confirmation.
-- `xmind-export`: user-selected export of standard or legacy Markdown test-case tables to a native XMind review view.
-- `execution-gate`: pre-execution confirmation for URL, account, scope, and risk authorization.
-- `test-execution`: page verification, evidence capture, and defect recording.
-- `regression-testing`: script-first regression verification after defect fixes.
-- `result-aggregation`: execution record, defect record, and regression status aggregation.
-
-## Helper Scripts
-
-Validate the plugin structure:
-
-```bash
-scripts/validate-plugin.sh
-```
-
-Create testing artifact directories:
-
-```bash
-scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
-```
-
-Export XMind from any Markdown file or module directory:
-
-```bash
-node skills/xmind-export/scripts/export_test_cases.mjs \
-  --input "/path/to/module-directory-or-test-cases.md"
-```
-
-The exporter supports relative paths, non-standard filenames, multiple case tables, and legacy column names. Missing `01-模块拆解.md`, `F-xxx` links, or case fields become warnings without rewriting the Markdown source. The scaffold never creates an empty XMind. Helper scripts do not open browsers, execute tests, or judge defects.
-
-## Artifact Path Contract
-
-All testing artifacts must live under:
+All standard testing artifacts live under:
 
 ```text
 <output-root>/easy-prd-testing/testing/<module-name>/
+├── 01-模块拆解.md
+├── 02-测试用例.md
+├── 02-测试用例.xmind          # optional; not an execution gate
+├── 03-执行清单.md
+├── 04-测试数据与账号.md
+└── 执行结果/
+    ├── P0/
+    ├── P1/
+    ├── P2/
+    └── P3/
 ```
 
-The fixed `easy-prd-testing` directory isolates this plugin's artifacts from the business project's own files.
+Two layers of confirmation are required before execution: the `01-04` artifacts must be complete and explicitly confirmed by the user; the test environment, account, scope, and risk authorization must also be confirmed. Standalone `xmind-export` usage is not restricted to the standard artifact directory.
 
-The required planning artifacts remain `01-04`. Optional XMind output lives beside the Markdown source and is not an execution-gate file. Standalone `xmind-export` usage is not restricted to the planning artifact path above.
+More details:
 
-## Documentation
-
-- `docs/workflow.md`: complete stage flow, execution gates, and task-list rules.
-- `docs/artifact-contract.md`: generated document, evidence directory, and regression artifact contracts.
-- `docs/agent-protocol.md`: single-agent, multi-agent, browser execution, and diagnostic escalation rules.
-
-## Contributing
-
-Before committing, run:
-
-```bash
-scripts/validate-plugin.sh
-bash -n scripts/validate-plugin.sh scripts/scaffold-testing-docs.sh
-```
-
-See `AGENTS.md` for contribution rules.
+- [`docs/workflow.md`](docs/workflow.md): complete stage flow, execution gates, and task progress rules.
+- [`docs/artifact-contract.md`](docs/artifact-contract.md): planning documents, evidence directories, and regression artifact contracts.
+- [`docs/agent-protocol.md`](docs/agent-protocol.md): single-agent, multi-agent, browser execution, and diagnostic escalation rules.
 
 ## License
 
 MIT
+
+## Thanks And Participation
+
+Thank you for trying Easy PRD Testing. If the workflow helps you, consider giving the project a [Star](https://github.com/dszblackmagic/easy-prd-testing).
+
+If you encounter a problem or have an improvement idea, please open a [GitHub Issue](https://github.com/dszblackmagic/easy-prd-testing/issues). Feedback is especially welcome on:
+
+- Installation and invocation compatibility across AI coding tools.
+- Missing or awkward steps between PRD intake and test execution.
+- Testing artifacts, execution gates, and multi-agent collaboration.
+- Markdown test cases and XMind export results.
+
+Every report from real-world usage helps make this skill suite more reliable and easier to use.
