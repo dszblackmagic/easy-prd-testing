@@ -1,6 +1,28 @@
-# Easy PRD Testing
+<div align="center">
 
-[中文](README.md) | [English](README.en.md)
+<sub>✦ PRDs in, testing confidence out ✦</sub>
+
+<h1>🧪 Easy PRD Testing</h1>
+
+<p><strong>Turn PRDs and prototypes into a confirmable, executable, and traceable automation testing workflow</strong></p>
+
+<p>📄 Intake&nbsp; → &nbsp;🔎 Clarify&nbsp; → &nbsp;🧠 Plan&nbsp; → &nbsp;🧪 Test&nbsp; → &nbsp;📦 Evidence&nbsp; → &nbsp;✅ Regress</p>
+
+<p>
+  <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
+  <img alt="Agent Skills: 8" src="https://img.shields.io/badge/agent_skills-8-58a6ff?style=flat-square">
+  <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
+</p>
+
+<p>
+  <a href="README.md">简体中文</a> ·
+  <strong>English</strong> ·
+  <a href="#let-ai-install-it-for-you">Install with AI</a> ·
+  <a href="#main-workflow">Main workflow</a>
+</p>
+
+</div>
 
 Easy PRD Testing is a suite of PRD / prototype-driven automation testing skills for AI coding tools. It connects product material intake, requirement clarification, test planning, execution confirmation, automated verification, evidence and defect aggregation, and post-fix regression into one confirmable and traceable workflow.
 

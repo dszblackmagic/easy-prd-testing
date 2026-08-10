@@ -1,6 +1,28 @@
-# Easy PRD Testing
+<div align="center">
 
-[中文](README.md) | [English](README.en.md)
+<sub>✦ PRD 进来，测试信心出去 ✦</sub>
+
+<h1>🧪 Easy PRD Testing</h1>
+
+<p><strong>把 PRD 与原型，变成可确认、可执行、可追踪的自动化测试流程</strong></p>
+
+<p>📄 资料&nbsp; → &nbsp;🔎 澄清&nbsp; → &nbsp;🧠 规划&nbsp; → &nbsp;🧪 执行&nbsp; → &nbsp;📦 证据&nbsp; → &nbsp;✅ 回归</p>
+
+<p>
+  <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
+  <img alt="Agent Skills: 8" src="https://img.shields.io/badge/agent_skills-8-58a6ff?style=flat-square">
+  <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
+</p>
+
+<p>
+  <strong>简体中文</strong> ·
+  <a href="README.en.md">English</a> ·
+  <a href="#让-ai-一键安装">AI 一键安装</a> ·
+  <a href="#主要流程">主要流程</a>
+</p>
+
+</div>
 
 Easy PRD Testing 是一套面向 AI 编码工具的 PRD / 原型驱动自动化自测 Skills。它把产品资料输入、需求澄清、测试规划、执行确认、自动化验证、证据与缺陷汇总，以及缺陷修复后的回归测试串成一条可确认、可追踪的流程。
 
