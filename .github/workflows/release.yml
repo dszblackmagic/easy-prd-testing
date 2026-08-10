@@ -98,9 +98,13 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --clobber
 
-          asset_digest="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+          asset_digest="$(gh release view "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json assets \
             --jq ".assets[] | select(.name == \"${asset_name}\") | .digest")"
-          asset_size="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+          asset_size="$(gh release view "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json assets \
             --jq ".assets[] | select(.name == \"${asset_name}\") | .size")"
 
           if [[ ! "$asset_digest" =~ ^sha256:[a-f0-9]{64}$ ]]; then
@@ -140,7 +144,9 @@ jobs:
         run: |
           set -euo pipefail
           asset_name="easy-prd-testing-${RELEASE_TAG}.tar.gz"
-          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" \
+          gh release view "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json assets \
             --jq '[.assets[].name] | sort | .[]' > dist/github-assets.txt
           grep -Fx "$asset_name" dist/github-assets.txt
           grep -Fx "latest.json" dist/github-assets.txt
