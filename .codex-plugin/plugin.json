@@ -1,6 +1,6 @@
 {
   "name": "easy-prd-testing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "PRD and prototype driven automation self-testing workflow for Codex.",
   "author": {
     "name": "Easy PRD Testing contributors"
