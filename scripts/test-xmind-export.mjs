@@ -6,9 +6,10 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
 
-const REPO_ROOT = resolve(dirname(new URL(import.meta.url).pathname), '..');
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const EXPORT_SCRIPT = join(REPO_ROOT, 'skills/xmind-export/scripts/export_test_cases.mjs');
 const HEADERS = [
     '用例编号',
