@@ -85,7 +85,7 @@
     },
     {
       "path": "scripts/test-self-update.mjs",
-      "digest": "sha256:17cfdbebac11365f01bf8bb69f613141f8938d17d4813da802680be4d5735ab8",
+      "digest": "sha256:c345ffa25a6067e681e4cdbd9d2cad87a80bbe678f129c32adeef772d2552fb7",
       "mode": "644"
     },
     {

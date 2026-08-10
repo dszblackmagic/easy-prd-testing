@@ -94,6 +94,8 @@ async function listFiles(root, prefix = '') {
 async function rewriteManagedVersion(root, version) {
     const pluginPath = join(root, '.codex-plugin', 'plugin.json');
     const plugin = JSON.parse(await readFile(pluginPath, 'utf8'));
+    const existingManifest = JSON.parse(await readFile(join(root, PACKAGE_MANIFEST), 'utf8'));
+    const existingModes = new Map(existingManifest.files.map((file) => [file.path, file.mode]));
     plugin.version = version;
     await writeFile(pluginPath, `${JSON.stringify(plugin, null, 2)}\n`);
     const files = [];
@@ -104,13 +106,23 @@ async function rewriteManagedVersion(root, version) {
         files.push({
             path,
             digest: digest(data),
-            mode: fileStat.mode & 0o111 ? '755' : '644',
+            mode: existingModes.get(path) ?? (fileStat.mode & 0o111 ? '755' : '644'),
         });
     }
     await writeFile(
         join(root, PACKAGE_MANIFEST),
         `${JSON.stringify({ schemaVersion: 1, version, rootDirectory: 'easy-prd-testing', files }, null, 2)}\n`,
     );
+}
+
+async function syncGitIndexModes(root) {
+    const manifest = JSON.parse(await readFile(join(root, PACKAGE_MANIFEST), 'utf8'));
+    for (const mode of ['755', '644']) {
+        const paths = manifest.files.filter((file) => file.mode === mode).map((file) => file.path);
+        if (paths.length > 0) {
+            await command('git', ['update-index', mode === '755' ? '--chmod=+x' : '--chmod=-x', '--', ...paths], { cwd: root });
+        }
+    }
 }
 
 function updateManifest(baseUrl, archive, metadata) {
@@ -348,10 +360,12 @@ async function run() {
     await command('git', ['config', 'user.email', 'tests@example.invalid'], { cwd: sourceRoot });
     await rewriteManagedVersion(sourceRoot, '0.1.1');
     await command('git', ['add', '-A'], { cwd: sourceRoot });
+    await syncGitIndexModes(sourceRoot);
     await command('git', ['commit', '-m', 'v0.1.1'], { cwd: sourceRoot });
     await command('git', ['tag', 'v0.1.1'], { cwd: sourceRoot });
     await cp(extractedRoot, sourceRoot, { recursive: true, force: true });
     await command('git', ['add', '-A'], { cwd: sourceRoot });
+    await syncGitIndexModes(sourceRoot);
     await command('git', ['commit', '-m', 'v0.1.2'], { cwd: sourceRoot });
     await command('git', ['tag', 'v0.1.2'], { cwd: sourceRoot });
     const cleanBuildRoot = await temporaryDirectory('clean-build');
