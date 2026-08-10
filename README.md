@@ -16,21 +16,15 @@ Easy PRD Testing 是一套面向 AI 编码工具的 PRD / 原型驱动自动化�
 
 完整流程默认从 `easy-prd-testing` 父 Skill 启动，由它按节点调用其他 Skills：
 
-```mermaid
-flowchart LR
-    A[PRD / 原型 / 产品资料] --> B[prd-intake<br/>分析与澄清]
-    B --> C[test-planning<br/>生成 01-04]
-    C -. 用户选择导出 .-> X[xmind-export<br/>生成 XMind]
-    C --> D{01-04 已完整生成<br/>并由用户明确确认?}
-    D -- 否 --> C
-    D -- 是 --> E[execution-gate<br/>确认环境与授权]
-    E --> F[test-execution<br/>按 P0-P3 执行]
-    F --> G[result-aggregation<br/>汇总结果与缺陷]
-    G --> H{缺陷修复后<br/>需要回归?}
-    H -- 是 --> I[regression-testing<br/>脚本优先回归]
-    H -- 否 --> J[完成]
-    I --> J
-```
+1. **输入产品资料**：提供 PRD、原型、截图、产品说明或字段基线。
+2. **分析与澄清**：`prd-intake` 识别模块范围、关键流程和不明确内容，并逐项向用户确认。
+3. **生成测试规划**：`test-planning` 在确认模块名和输出目录后生成 `01-04` 测试规划产物。
+4. **按需导出 XMind**：规划完成后，用户可以选择由 `xmind-export` 生成原生 XMind 评审视图；跳过后继续主流程。
+5. **确认规划门禁**：用户必须明确确认完整的 `01-04`，否则停留在规划阶段，不进入执行准备。
+6. **确认执行条件**：`execution-gate` 逐步确认测试环境、登录方式、账号、范围、依赖和风险授权。
+7. **执行自动化测试**：`test-execution` 以单 agent 或 P0-P3 多 agent 模式执行，并保存记录、缺陷和证据。
+8. **汇总测试结果**：`result-aggregation` 汇总各优先级结果，输出模块级执行与缺陷结论。
+9. **按需执行回归**：缺陷修复且回归范围明确后，`regression-testing` 优先复用已有脚本验证修复结果；没有回归需求时流程结束。
 
 > `02-测试用例.xmind` 是可选评审视图，`02-测试用例.md` 始终是唯一权威源。无论是否导出 XMind，执行前都必须完整生成并明确确认 `01-04`。
 

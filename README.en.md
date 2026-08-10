@@ -16,21 +16,15 @@ Easy PRD Testing is a suite of PRD / prototype-driven automation testing skills 
 
 Start a complete run from the `easy-prd-testing` parent skill. It routes work to the stage skills at the appropriate nodes:
 
-```mermaid
-flowchart LR
-    A[PRD / prototype / product material] --> B[prd-intake<br/>analyze and clarify]
-    B --> C[test-planning<br/>generate 01-04]
-    C -. user opts in .-> X[xmind-export<br/>generate XMind]
-    C --> D{Are 01-04 complete<br/>and explicitly confirmed?}
-    D -- No --> C
-    D -- Yes --> E[execution-gate<br/>confirm environment and authorization]
-    E --> F[test-execution<br/>run by P0-P3]
-    F --> G[result-aggregation<br/>summarize results and defects]
-    G --> H{Regression needed<br/>after a fix?}
-    H -- Yes --> I[regression-testing<br/>script-first regression]
-    H -- No --> J[Done]
-    I --> J
-```
+1. **Provide product material**: Supply a PRD, prototype, screenshot, product notes, or a field baseline.
+2. **Analyze and clarify**: `prd-intake` identifies module scope, key flows, and ambiguities, then confirms them with the user one at a time.
+3. **Generate test planning artifacts**: After the module name and output directory are confirmed, `test-planning` generates the `01-04` artifacts.
+4. **Optionally export XMind**: The user may ask `xmind-export` to generate a native XMind review view after planning; skipping it continues the main workflow.
+5. **Confirm the planning gate**: The user must explicitly confirm the complete `01-04` set. Otherwise, the workflow stays in planning and does not prepare execution.
+6. **Confirm execution conditions**: `execution-gate` confirms the environment, login method, account, scope, dependencies, and risk authorization step by step.
+7. **Run automated tests**: `test-execution` runs in single-agent or P0-P3 multi-agent mode and preserves records, defects, and evidence.
+8. **Aggregate test results**: `result-aggregation` combines priority-owned results into module-level execution and defect conclusions.
+9. **Run regression when needed**: After a defect is fixed and the scope is known, `regression-testing` reuses existing scripts first to verify the fix. The workflow ends here when regression is not needed.
 
 > `02-测试用例.xmind` is an optional review view. `02-测试用例.md` always remains the single source of truth. Whether or not XMind is exported, all `01-04` artifacts must be complete and explicitly confirmed before execution.
 
