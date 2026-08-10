@@ -39,13 +39,21 @@ Create or update:
 ## Planning Rules
 
 - Feature IDs use `F-xxx`.
-- Test cases link to feature IDs.
+- Every test case links to at least one `F-xxx` feature ID defined in `01-模块拆解.md`.
 - Test case IDs use `<module-code>-P<priority>-NNN`.
 - Priorities are `P0`, `P1`, `P2`, and `P3`.
 - Each case records its execution directory: `执行结果/P0/`, `执行结果/P1/`, `执行结果/P2/`, or `执行结果/P3/`.
 - Field baselines record their source.
 - Prototype-only fields are marked pending user confirmation.
 
+## Optional XMind Review Artifact
+
+After generating or updating `01-04`, ask whether the user wants the optional native `02-测试用例.xmind` review artifact. If the user opts in, use `xmind-export` before requesting final planning confirmation.
+
+- Do not generate the XMind without user opt-in.
+- Do not treat the XMind as an authoritative source or gate requirement.
+- Do not block confirmation of valid `01-04` files when the export is skipped or fails.
+
 ## Stop Condition
 
-After generating `01-04`, stop and ask the user to explicitly confirm the planning artifacts. Do not enter execution gates automatically.
+After offering or completing the optional XMind export, stop and ask the user to explicitly confirm the `01-04` planning artifacts. Do not enter execution gates automatically.

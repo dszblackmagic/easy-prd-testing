@@ -7,6 +7,7 @@ Easy PRD Testing 是一个面向 Codex 的 PRD / 原型驱动自动化自测插�
 ## 适用场景
 
 - 你有 PRD、产品说明、原型图或字段基线，希望自动生成测试规划。
+- 你希望把生成的测试用例按需导出为可直接打开的原生 XMind 文件，辅助评审用例覆盖。
 - 你希望在执行前逐步确认测试地址、账号密码、登录方式和执行范围。
 - 你希望自动化执行过程中持续看到 task-list 风格的进度。
 - 你希望按 P0-P3 优先级拆分多 agent 执行，并汇总缺陷与证据。
@@ -87,6 +88,8 @@ skills/
 - `03-执行清单.md`
 - `04-测试数据与账号.md`
 
+生成 `01-04` 后，插件会询问是否补充原生 `02-测试用例.xmind`。该文件是可选的单向派生产物，按 `P0-P3` 和用例模块组织；`02-测试用例.md` 始终是唯一权威源。跳过或导出失败不会改变原有 `01-04` 确认门禁。
+
 ### 3. 执行前确认
 
 `execution-gate` 会逐步确认：
@@ -148,6 +151,7 @@ skills/
 - `easy-prd-testing`：父级编排、阶段路由和 task-list 进度展示。
 - `prd-intake`：PRD / 原型资料分析和澄清问题生成。
 - `test-planning`：生成测试规划文档，并确认输出目录。
+- `xmind-export`：按用户选择，把标准或旧格式 Markdown 用例表导出为原生 XMind 评审视图。
 - `execution-gate`：执行前确认测试地址、账号、范围和风险授权。
 - `test-execution`：执行页面验证、证据捕获和缺陷记录。
 - `regression-testing`：缺陷修复后的脚本优先回归验证。
@@ -167,7 +171,14 @@ scripts/validate-plugin.sh
 scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
 ```
 
-辅助脚本只负责结构验证和目录生成，不负责解析 PRD、打开浏览器、执行测试或判断缺陷。
+从任意 Markdown 文件或模块目录单独导出 XMind：
+
+```bash
+node skills/xmind-export/scripts/export_test_cases.mjs \
+  --input "/path/to/模块目录或测试用例.md"
+```
+
+导出器支持相对路径、非标准文件名、多张用例表和旧列名；缺少 `01-模块拆解.md`、`F-xxx` 或部分用例字段时以 warning 完成导出，不修改原 Markdown。脚手架不会创建空白 XMind；辅助脚本不打开浏览器、执行测试或判断缺陷。
 
 ## 产物目录契约
 
@@ -178,6 +189,8 @@ scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
 ```
 
 固定的 `easy-prd-testing` 目录用于隔离本插件产物，避免和业务项目自身文档混在一起。
+
+必需规划产物仍为 `01-04`。可选的 XMind 与源 Markdown 同目录，不属于执行门禁文件；单独使用 `xmind-export` 时不受上述规划产物目录限制。
 
 ## 文档索引
 

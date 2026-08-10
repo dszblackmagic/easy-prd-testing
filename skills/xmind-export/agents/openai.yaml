@@ -1,0 +1,4 @@
+interface:
+  display_name: "XMind Test Case Export"
+  short_description: "Export Markdown test cases to native XMind files"
+  default_prompt: "Use $xmind-export to convert these Markdown test cases into a native XMind file without rewriting the source."

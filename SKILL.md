@@ -1,6 +1,6 @@
 ---
 name: easy-prd-testing
-description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, execution gates, priority-based execution, evidence, aggregation, and regression testing.
+description: Use when PRD or prototype based module self-testing needs a complete Codex workflow for intake, clarification, planning documents, optional native XMind test-case export, execution gates, priority-based execution, evidence, aggregation, and regression testing.
 ---
 
 # Easy PRD Testing
@@ -13,6 +13,7 @@ When this skill is installed from the repository root, use the stage instruction
 
 - Intake: `skills/prd-intake/SKILL.md`
 - Planning: `skills/test-planning/SKILL.md`
+- Optional XMind test-case export: `skills/xmind-export/SKILL.md`
 - Execution gate: `skills/execution-gate/SKILL.md`
 - Test execution: `skills/test-execution/SKILL.md`
 - Regression testing: `skills/regression-testing/SKILL.md`
@@ -24,6 +25,7 @@ Read the relevant stage file before executing that stage.
 
 - Source material analysis or unclear PRD/prototype input: follow `skills/prd-intake/SKILL.md`.
 - Planning artifact generation or updates: follow `skills/test-planning/SKILL.md`.
+- Optional native XMind generation or refresh for `02-测试用例.md`: follow `skills/xmind-export/SKILL.md`.
 - Execution prerequisite confirmation: follow `skills/execution-gate/SKILL.md`.
 - Browser verification, field comparison, evidence capture, or priority execution: follow `skills/test-execution/SKILL.md`.
 - Root execution or defect summary generation: follow `skills/result-aggregation/SKILL.md`.
@@ -58,17 +60,18 @@ Default tasks:
 3. Confirm output root directory.
 4. Analyze materials and collect clarification questions.
 5. Generate `01-04` planning artifacts.
-6. Wait for explicit user confirmation of `01-04`.
-7. Confirm environment address and test path.
-8. Confirm login mode, account, password retrieval, and permission scope.
-9. Confirm execution mode and high-risk action authorization.
-10. Execute P0/P1/P2/P3 cases.
-11. Aggregate execution and defect records.
-12. Report final conclusion and evidence index.
-13. Confirm regression target after defect fixes when requested.
-14. Run Playwright Test regression scripts when available.
-15. Recheck unclear regression failures with `agent-browser`.
-16. Update regression records and defect statuses.
+6. Offer the optional XMind test-case export; add its task only after the user opts in.
+7. Wait for explicit user confirmation of `01-04`.
+8. Confirm environment address and test path.
+9. Confirm login mode, account, password retrieval, and permission scope.
+10. Confirm execution mode and high-risk action authorization.
+11. Execute P0/P1/P2/P3 cases.
+12. Aggregate execution and defect records.
+13. Report final conclusion and evidence index.
+14. Confirm regression target after defect fixes when requested.
+15. Run Playwright Test regression scripts when available.
+16. Recheck unclear regression failures with `agent-browser`.
+17. Update regression records and defect statuses.
 
 Update the task list whenever a stage starts, completes, becomes blocked, resumes, or is skipped. A task must not be marked `completed` until the related user confirmation, generated artifact, execution result, or summary exists.
 
@@ -81,6 +84,8 @@ All generated module artifacts live under:
 ```
 
 The `easy-prd-testing` directory name is fixed.
+
+`02-测试用例.xmind` is an optional one-way derivative of `02-测试用例.md`. It is never required by the `01-04` execution gate.
 
 ## Stop Conditions
 

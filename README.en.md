@@ -7,6 +7,7 @@ Easy PRD Testing is a Codex plugin for PRD / prototype-driven automation self-te
 ## Use Cases
 
 - You have a PRD, product specification, prototype image, or field baseline and want to generate test planning artifacts automatically.
+- You want to optionally export generated test cases as a native XMind file for coverage review.
 - You want the workflow to confirm the test URL, account credentials, login mode, and execution scope before execution.
 - You want task-list style progress during automation execution.
 - You want P0-P3 priority-based multi-agent execution with consolidated defects and evidence.
@@ -87,6 +88,8 @@ Planning artifacts include:
 - `03-执行清单.md`
 - `04-测试数据与账号.md`
 
+After generating `01-04`, the plugin asks whether to add the native `02-测试用例.xmind` file. This optional one-way derivative is organized by `P0-P3` and test-case module; `02-测试用例.md` remains the only authoritative source. Skipping or failing the export does not change the existing `01-04` confirmation gate.
+
 ### 3. Confirm Execution Prerequisites
 
 `execution-gate` confirms the following step by step:
@@ -148,6 +151,7 @@ Regression artifacts are placed directly in the matching priority directory, at 
 - `easy-prd-testing`: parent orchestration, stage routing, and task-list progress.
 - `prd-intake`: PRD / prototype material analysis and clarification question generation.
 - `test-planning`: planning artifact generation and output directory confirmation.
+- `xmind-export`: user-selected export of standard or legacy Markdown test-case tables to a native XMind review view.
 - `execution-gate`: pre-execution confirmation for URL, account, scope, and risk authorization.
 - `test-execution`: page verification, evidence capture, and defect recording.
 - `regression-testing`: script-first regression verification after defect fixes.
@@ -167,7 +171,14 @@ Create testing artifact directories:
 scripts/scaffold-testing-docs.sh "/path/to/output-root" "订单管理"
 ```
 
-Helper scripts only validate structure and create directories. They do not parse PRDs, open browsers, execute tests, or judge defects.
+Export XMind from any Markdown file or module directory:
+
+```bash
+node skills/xmind-export/scripts/export_test_cases.mjs \
+  --input "/path/to/module-directory-or-test-cases.md"
+```
+
+The exporter supports relative paths, non-standard filenames, multiple case tables, and legacy column names. Missing `01-模块拆解.md`, `F-xxx` links, or case fields become warnings without rewriting the Markdown source. The scaffold never creates an empty XMind. Helper scripts do not open browsers, execute tests, or judge defects.
 
 ## Artifact Path Contract
 
@@ -178,6 +189,8 @@ All testing artifacts must live under:
 ```
 
 The fixed `easy-prd-testing` directory isolates this plugin's artifacts from the business project's own files.
+
+The required planning artifacts remain `01-04`. Optional XMind output lives beside the Markdown source and is not an execution-gate file. Standalone `xmind-export` usage is not restricted to the planning artifact path above.
 
 ## Documentation
 

@@ -2,6 +2,11 @@
   "name": "easy-prd-testing",
   "version": "0.1.0",
   "description": "PRD and prototype driven automation self-testing workflow for Codex.",
+  "author": {
+    "name": "Easy PRD Testing contributors"
+  },
+  "homepage": "https://github.com/dszblackmagic/easy-prd-testing",
+  "repository": "https://github.com/dszblackmagic/easy-prd-testing",
   "license": "MIT",
   "keywords": [
     "prd",
@@ -9,6 +14,7 @@
     "automation",
     "codex",
     "playwright",
+    "xmind",
     "skills"
   ],
   "skills": "./skills/",
@@ -23,9 +29,8 @@
     ],
     "defaultPrompt": [
       "Use PRD documents, prototype images, or confirmed testing artifacts to run the Easy PRD Testing workflow.",
-      "Generate automation self-testing planning artifacts from a PRD or prototype.",
-      "Execute confirmed PRD testing artifacts with prerequisite gates, evidence capture, and result aggregation.",
-      "Run defect-fix regression verification with Playwright Test first, then use agent-browser and DevTools diagnostics only when needed."
+      "Generate automation self-testing planning artifacts from a PRD or prototype, with an optional native XMind test-case view.",
+      "Execute confirmed tests with gates and evidence, then run script-first regression after fixes."
     ]
   }
 }

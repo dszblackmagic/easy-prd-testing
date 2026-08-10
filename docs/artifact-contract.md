@@ -19,9 +19,27 @@ Rules:
 
 - Feature IDs use `F-xxx`.
 - Test case IDs use `<module-code>-P<priority>-NNN`.
-- Each test case links back to a feature ID.
+- Each test case links back to at least one `F-xxx` defined in `01-模块拆解.md`.
 - Each field baseline records its source: PRD, prototype, or user supplement.
 - Fields inferred only from prototypes are marked as pending user confirmation.
+
+## Optional Derived Planning Artifact
+
+```text
+02-测试用例.xmind
+```
+
+Rules:
+
+- Generate it only after the user opts in.
+- Treat `02-测试用例.md` as the only authoritative source; XMind edits do not flow back.
+- Keep it beside its Markdown source and use modern XMind Zen / 2020+ format. Standalone export may use a source outside the standard planning artifact path.
+- Accept canonical or legacy Markdown tables, merge multiple case tables, and keep normalization in XMind without rewriting Markdown.
+- Treat `01-模块拆解.md` and `F-xxx` coverage as optional; report missing or unknown references as warnings.
+- Preserve all four `P0`-`P3` branches, including zero-count priorities, and add `未分级` when priority cannot be inferred.
+- Represent missing row data with generated IDs, `待补充` values, and warnings rather than failing the whole export.
+- Record the source Markdown SHA-256 in root notes, update managed output atomically, and back up unknown same-name files.
+- Validate the generated archive before replacement and never make this artifact part of the `01-04` execution gate.
 
 ## Execution Artifacts
 

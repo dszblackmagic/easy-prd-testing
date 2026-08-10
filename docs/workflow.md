@@ -7,10 +7,23 @@ Easy PRD Testing runs as a gated workflow:
 3. Confirm the output root directory.
 4. Analyze source materials and ask clarification questions one at a time.
 5. Generate `01-04` planning artifacts.
-6. Wait for explicit user confirmation of the planning artifacts.
-7. Confirm execution prerequisites one item at a time.
-8. Execute tests in single-agent mode or priority-based multi-agent mode.
-9. Aggregate execution records, defects, blockers, and evidence indexes.
+6. Offer the optional native XMind test-case view; export it only after user opt-in.
+7. Wait for explicit user confirmation of the `01-04` planning artifacts.
+8. Confirm execution prerequisites one item at a time.
+9. Execute tests in single-agent mode or priority-based multi-agent mode.
+10. Aggregate execution records, defects, blockers, and evidence indexes.
+
+## Optional XMind Export
+
+`xmind-export` creates `02-测试用例.xmind` as a one-way derivative of the authoritative `02-测试用例.md`.
+
+- Offer it after `01-04` generation and before final planning confirmation.
+- Keep it optional and outside the execution gate.
+- Accept standard or legacy Markdown tables from any directory without rewriting the source.
+- Merge recognizable case tables, normalize legacy columns, and represent incomplete rows with warnings and `待补充` markers.
+- Treat `01-模块拆解.md` and `F-xxx` coverage as optional enhancements rather than export gates.
+- Update managed XMind output atomically; back up an unknown same-name file before replacement.
+- Keep a skipped or failed export separate from valid `01-04` planning confirmation.
 
 ## Optional Regression Workflow
 
@@ -41,6 +54,7 @@ The task list must not replace gates. A task can only become `completed` after t
 - No PRD or prototype: ask for source material.
 - No module name: ask for the module name.
 - No output root: ask where automation testing artifacts should be written.
-- Planning artifacts generated: stop until the user explicitly confirms them.
+- Planning artifacts generated: offer the optional XMind view, then stop until the user explicitly confirms `01-04`.
+- Missing or warning-heavy XMind: do not weaken or block the `01-04` confirmation gate.
 - Missing execution prerequisite: ask only the earliest missing prerequisite.
 - High-risk action without authorization: verify only entry, display, validation, secondary confirmation, and messages.
