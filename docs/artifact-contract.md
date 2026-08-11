@@ -62,9 +62,13 @@ Root summary files:
 
 Rules:
 
-- Passing cases need an actual result summary and do not require screenshots.
+- Priority records use exactly five first-run statuses: `通过`, `失败`, `阻塞`, `未测`, and `待确认`. Root totals must equal the sum of these statuses; blank or unknown values require correction rather than implicit mapping.
+- Each priority execution batch records application type, service status and ownership, default page-readiness basis, observation capabilities, and browser session/temporary-service cleanup strategy. Per-case records preserve the actual page-readiness basis, locator type, Console/Network observation, evidence paths, and cleanup outcome.
+- Passing cases need an actual result summary and do not require screenshots or diagnostic artifacts.
 - Field differences require screenshots.
-- Operation failures require screenshots, Console summary, Network summary, and Playwright video when available.
+- Operation failures require screenshots when feasible. Console, Network, video, Trace, and HAR are recorded only when the execution tool actually produced them; otherwise record `未产生（原因）` and do not infer a clean observation from missing material.
+- Actual result summaries and diagnostic evidence are separate: a result describes what happened, while evidence records only captured output. Failure evidence and the reason for unavailable evidence must remain visible in the priority record and root summary.
+- Priority agents write only under their assigned `执行结果/Px/` directory. The main agent alone aggregates those records into root `05-执行记录.md` and `06-缺陷记录.md`, preserving priority-owned relative evidence paths.
 - Blockers are not defects unless the user confirms they are product or implementation issues.
 
 ## Regression Artifacts

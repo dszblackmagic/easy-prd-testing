@@ -29,7 +29,7 @@ Easy PRD Testing is a suite of PRD / prototype-driven automation testing skills 
 ## When To Use It
 
 - Generate test planning artifacts from a PRD, product specification, prototype, screenshot, or field baseline.
-- Confirm the test URL, login method, account, scope, and risk authorization before execution.
+- Derive safe execution details automatically, then confirm only the URL, login, account, scope, or risk items that still need user input or authorization.
 - Organize automation tests by P0-P3 and preserve execution records, defects, and evidence.
 - Optionally export Markdown test cases to a native XMind file for review.
 - Reuse Playwright Test scripts first when verifying defect fixes.
@@ -173,11 +173,11 @@ The user can then opt into `xmind-export` for a native XMind review view. Skippi
 
 ### 3. Confirm Execution Conditions
 
-After the user explicitly confirms `01-04`, `execution-gate` confirms the test URL, login mode, test account, data preparation, execution scope, priority, mutation permission, and authorization for high-risk actions. Execution does not begin while required information is missing.
+After the user explicitly confirms `01-04`, `execution-gate` first derives target type, service state and ownership, page-readiness basis, and cleanup responsibility from existing material and read-only probes, asking only when a conclusion cannot be made reliably or authorization is required. Existing local services remain running by default, remote services are never started or stopped automatically, and execution does not begin while another required item remains unresolved.
 
 ### 4. Execute And Preserve Evidence
 
-`test-execution` supports a single agent or P0-P3 priority-based execution while keeping visible task progress up to date. Execution records, defects, screenshots, videos, and scripts are written to their matching priority directories.
+`test-execution` keeps `agent-browser` as the default and supports single-agent or P0-P3 priority-based execution. The first visit to each page or key flow follows enter → readiness → reconnaissance → locator → action → assertion → classification → evidence → cleanup, using observable page state instead of requiring `networkidle`; runtime observation records only output the tool actually produced, while priority directories and multi-agent write boundaries remain unchanged.
 
 ### 5. Aggregate Test Results
 

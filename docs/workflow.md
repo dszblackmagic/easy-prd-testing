@@ -9,8 +9,8 @@ Easy PRD Testing runs as a gated workflow:
 5. Generate `01-04` planning artifacts.
 6. Offer the optional native XMind test-case view; export it only after user opt-in.
 7. Wait for explicit user confirmation of the `01-04` planning artifacts.
-8. Confirm execution prerequisites one item at a time.
-9. Execute tests in single-agent mode or priority-based multi-agent mode.
+8. Infer target and service preflight details from read-only evidence, then confirm only the earliest execution prerequisite that still needs user information or authorization.
+9. Execute tests in single-agent mode or priority-based multi-agent mode, applying the first-run browser loop to each new page or key flow.
 10. Aggregate execution records, defects, blockers, and evidence indexes.
 
 Version maintenance is independent from this testing sequence. Route Easy PRD Testing update intent to `self-update`; never insert an update into an active execution, aggregation, or regression stage.
@@ -40,6 +40,30 @@ Do not check for updates at tool startup or during ordinary testing work. Do not
 - Treat `01-模块拆解.md` and `F-xxx` coverage as optional enhancements rather than export gates.
 - Update managed XMind output atomically; back up an unknown same-name file before replacement.
 - Keep a skipped or failed export separate from valid `01-04` planning confirmation.
+
+## Execution Preflight
+
+After the user explicitly confirms `01-04`, `execution-gate` resolves the target and service lifecycle before browser execution:
+
+1. Infer the target type, service state and ownership, observable readiness basis, and cleanup responsibility from the input path or URL, existing execution plan, planning artifacts, and read-only reachability or port probes.
+2. Ask only when required information cannot be derived reliably or an action needs authorization. Starting a stopped local service requires its command, responsibility, and one explicit authorization.
+3. Treat an already-running local service as pre-existing and leave it running by default. Treat a remote environment as externally owned and never start, restart, stop, or otherwise manage its service.
+4. Complete the remaining login, account, execution-mode, dependency, regression-script, and high-risk authorization gates in order, asking only for the earliest unresolved item.
+5. Record all inferred and user-confirmed conclusions in the final execution plan before dispatching any priority.
+
+## First-Run Browser Execution
+
+`test-execution` keeps `agent-browser` as the default first-run backend. For every new page or key flow, and for any recheck that reaches an unknown page state, execute this loop:
+
+```text
+enter -> readiness -> reconnaissance -> locator -> action -> assertion -> classification -> evidence -> cleanup
+```
+
+- Use an observable product condition or retrying assertion for readiness, such as a stable heading, enabled control, rendered data, completed key response, or disappeared loading indicator. Do not require `networkidle` or treat elapsed time alone as proof of readiness.
+- Inspect the rendered state before acting, choose the most stable available locator, and avoid blind retries that could duplicate a side effect.
+- Enable Console, page-error, Network, redirect, video, trace, or HAR observation only when the confirmed backend supports and needs it. Record only output that the tool actually produced; missing output is an evidence gap, not proof that no error occurred.
+- Preserve failure or blocker evidence before cleanup. Close only pages, sessions, or temporary services owned by this run, and never stop an existing local or remote service.
+- In multi-agent mode, keep priority-isolated browser sessions and existing write boundaries. Diagnostic escalation remains `agent-browser` to Chrome DevTools CLI, then Chrome DevTools MCP only when the preceding evidence is insufficient.
 
 ## Optional Regression Workflow
 
@@ -72,5 +96,5 @@ The task list must not replace gates. A task can only become `completed` after t
 - No output root: ask where automation testing artifacts should be written.
 - Planning artifacts generated: offer the optional XMind view, then stop until the user explicitly confirms `01-04`.
 - Missing or warning-heavy XMind: do not weaken or block the `01-04` confirmation gate.
-- Missing execution prerequisite: ask only the earliest missing prerequisite.
+- Missing execution prerequisite: first attempt safe read-only inference, then ask only the earliest prerequisite that genuinely requires user information or authorization.
 - High-risk action without authorization: verify only entry, display, validation, secondary confirmation, and messages.

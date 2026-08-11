@@ -20,7 +20,7 @@
     },
     {
       "path": ".gitignore",
-      "digest": "sha256:9d3688e8e757283b9902f856b42c07afbd0e8cdc91cacde7c99a84bb60df9c21",
+      "digest": "sha256:fbd1d4e079bc1d143bd4cf1e7e7c5dbfae3aca16d5464437f7f732b00d66b3c2",
       "mode": "644"
     },
     {
@@ -30,12 +30,12 @@
     },
     {
       "path": "docs/agent-protocol.md",
-      "digest": "sha256:f6c7f6e30d682c4b822d9b70339c66fd52781850796d998b19c2596c3d740213",
+      "digest": "sha256:7e229b315e38bef48ded5a921706cb1f006f3dba76832f9716fd5b2ede235969",
       "mode": "644"
     },
     {
       "path": "docs/artifact-contract.md",
-      "digest": "sha256:c26830a0ace0b59f6238a4b63625b97d258b652d79669dc5dc5255aae737907e",
+      "digest": "sha256:bce15e8f90c10cecfbe757bd9b9cb040169f2db47842eb0e1b367e8f7e304755",
       "mode": "644"
     },
     {
@@ -45,7 +45,7 @@
     },
     {
       "path": "docs/workflow.md",
-      "digest": "sha256:3907e60d84d11f0fce470c60cbb717cfa2876b13993d7edb2f7220ebb36e00cc",
+      "digest": "sha256:7ba067936f16bc7ea45b3dca431e67368508ddfd0bfd190f9ee6fe3fd82849ad",
       "mode": "644"
     },
     {
@@ -55,12 +55,12 @@
     },
     {
       "path": "README.en.md",
-      "digest": "sha256:1c88d99b938f6e21bfcea57995c99be528f0ece597464c8da5e1f6112654ba3c",
+      "digest": "sha256:d189e7a0ee6c0bbad85b578f4fad01cb5c59fabffd6579de877c9a2a4d1ac607",
       "mode": "644"
     },
     {
       "path": "README.md",
-      "digest": "sha256:5b4b193fb76aec8e1b06adf38a779708f82312f05c95d81be36a183a4f014e1a",
+      "digest": "sha256:8f6d3f899c9839fd145b2a0e3483092ee9aed136496ff380c77c961173623e1a",
       "mode": "644"
     },
     {
@@ -110,12 +110,12 @@
     },
     {
       "path": "skills/execution-gate/SKILL.md",
-      "digest": "sha256:c2d422d9fc1ced6f8cb7bcf4cba089e0a5a0dc09e1648db4fb71fa76b62556df",
+      "digest": "sha256:f97e898effeaa9b8104f1419bb64e8f0cb649375936cf65e61e443d131a3c5a5",
       "mode": "644"
     },
     {
       "path": "skills/execution-gate/templates/执行前确认.md",
-      "digest": "sha256:56936bf344d420dbe3b62843804522c340a55eeb08581cc64b913d7c189cf05a",
+      "digest": "sha256:5fc90beb0eeb3cc58fd2055f16b585a65e3582c9a262557bfcebce917690f60a",
       "mode": "644"
     },
     {
@@ -145,12 +145,12 @@
     },
     {
       "path": "skills/result-aggregation/SKILL.md",
-      "digest": "sha256:848e3b95df95bd374625f9d2150bd85d51ba0ca601503d9cd41be1f05b080f30",
+      "digest": "sha256:e62df0b0ad5f97df4b8da367ae4943ed4d1c2b72440bc1cdd218a528f199de57",
       "mode": "644"
     },
     {
       "path": "skills/result-aggregation/templates/05-执行记录.md",
-      "digest": "sha256:f8757af6d979395883df84a42879ce39a965b259f6b993b0c669e829e37aa175",
+      "digest": "sha256:76649d3276aed7fba40cb27566ba32d51e9388559af3972d71a6ecbfb3ccfcde",
       "mode": "644"
     },
     {
@@ -169,13 +169,18 @@
       "mode": "644"
     },
     {
+      "path": "skills/test-execution/references/browser-execution-protocol.md",
+      "digest": "sha256:7e866d514e199ebb6d308c93ea30097254037e78636218a365536d726e88cb19",
+      "mode": "644"
+    },
+    {
       "path": "skills/test-execution/SKILL.md",
-      "digest": "sha256:c303708e48b210f97f53c8c122c04c32489be462cad1754e67b3215f5a645ca7",
+      "digest": "sha256:b89811595f1482c5355fd6bc4b4aa07adefb53432c366e7bd090dafa5d118ad2",
       "mode": "644"
     },
     {
       "path": "skills/test-execution/templates/执行结果/优先级/05-执行记录.md",
-      "digest": "sha256:c50e84ce91bc0f86a2d8f376394723941173b66e114dc2d477a313be5ede3f30",
+      "digest": "sha256:5ff258b4014fd671c76b8c335894e06ac40ea5676ec239e9f22f3aa63ab601d1",
       "mode": "644"
     },
     {
