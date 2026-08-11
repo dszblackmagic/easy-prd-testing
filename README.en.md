@@ -19,7 +19,6 @@
   <a href="README.md">简体中文</a> ·
   <strong>English</strong> ·
   <a href="#let-ai-install-it-for-you">Install with AI</a> ·
-  <a href="#update-the-complete-skill-suite">Update</a> ·
   <a href="#main-workflow">Main workflow</a>
 </p>
 
@@ -90,7 +89,7 @@ Install https://github.com/dszblackmagic/easy-prd-testing in the current Claude 
 
 Start with the “General AI Coding Tools” prompt above. Skill discovery directories, explicit invocation syntax, and script permissions vary between tools, so this README does not promise native installation on tools that have not been tested. Tools without Agent Skills support can still read this repository and follow the same workflow.
 
-The complete workflow requires an AI coding environment that can read local files and run scripts. XMind export and complete Skill-suite updates require Node.js 18 or later. Missing dependencies should be reported to the user, not installed automatically.
+The complete workflow requires an AI coding environment that can read local files and run scripts. XMind export requires Node.js 18 or later. Missing dependencies should be reported to the user, not installed automatically.
 
 <details>
 <summary>Manual download and validation</summary>
@@ -104,30 +103,6 @@ scripts/validate-plugin.sh
 After downloading, reference the directory using the current AI tool's official conventions.
 
 </details>
-
-## Update The Complete Skill Suite
-
-Starting with `v0.1.2`, there is no fixed command to memorize. Express an Easy PRD Testing update intent in natural language, for example:
-
-```text
-Update this version
-Check whether these Skills have an update
-Bring the Easy PRD Testing plugin up to date
-```
-
-`self-update` locates the current installation, performs a read-only check against the latest stable Release, and shows the current version, target version, and 3–5 release highlights. When an update exists, the AI asks once before downloading, verifying the GitHub SHA-256 digest, validating in a temporary directory, and switching the installation transactionally. A normal update does not prompt at every step.
-
-Only the current installation is updated. Other AI-tool copies are not scanned, and no background check runs when a testing workflow starts. Local modifications, dirty Git worktrees, symlinked installs, and incompatible update protocols stop safely. After a successful update, start a new session or reload the current tool's Skills or Plugin.
-
-### Migrating From `v0.1.1` Or Earlier
-
-Older versions do not contain `self-update`. Give the following one-time migration prompt to your AI:
-
-```text
-Reinstall the latest stable Easy PRD Testing release from https://github.com/dszblackmagic/easy-prd-testing and replace the current installation. Check for local modifications and report them before replacement, then run scripts/validate-plugin.sh after installation. If Node.js 18 or another dependency is missing, tell me how to install it but do not install it automatically. Finally, report the installation path and version.
-```
-
-Future releases can use the natural-language update flow above after this migration.
 
 ## 30-Second Quick Start
 
@@ -177,9 +152,8 @@ Use the regression-testing stage of easy-prd-testing to run regression for <defe
 | `test-execution` | After every execution gate passes | Automatic in the complete workflow | P0-P3 execution records, defects, and evidence |
 | `result-aggregation` | After priority-based execution finishes | Automatic in the complete workflow | Root execution and defect summaries |
 | `regression-testing` | After a defect is fixed and the regression scope is known | Independent, on-demand entry | Regression records and defect status updates |
-| `self-update` | When the Easy PRD Testing version should be checked or upgraded | Independent routing based on update intent | Version check, release summary, and safe full-suite update |
 
-The invocation rule is simple: use `easy-prd-testing` for a complete test workflow and name a stage only for independent requirement analysis, planning, XMind export, regression, or version updates. Updating is outside the testing workflow and never changes the `01-04` execution gate. If the selected install type exposes stage skills individually, invoke one directly; otherwise invoke the parent skill and state the intent.
+The invocation rule is simple: use `easy-prd-testing` for a complete test workflow and name a stage only for independent requirement analysis, planning, XMind export, or regression. If the selected install type exposes stage skills individually, invoke one directly; otherwise invoke the parent skill and name the stage in the prompt.
 
 ## What Happens At Each Stage
 
@@ -213,10 +187,6 @@ After the user explicitly confirms `01-04`, `execution-gate` confirms the test U
 
 Once the regression target is known, `regression-testing` reuses existing Playwright Test scripts first, then updates regression records and defect statuses. See [`docs/agent-protocol.md`](docs/agent-protocol.md) for the detailed execution and diagnostic escalation rules.
 
-### Independent Maintenance: Update The Complete Skill Suite
-
-When no execution-stage task is active, `self-update` checks the latest stable Release, presents its highlights, and waits for one explicit confirmation. The updater enforces SHA-256 verification, local-change protection, safe extraction, and failure recovery. Use the new version from a fresh session after a successful update.
-
 ## Artifacts, Gates, And References
 
 All standard testing artifacts live under:
@@ -242,6 +212,60 @@ More details:
 - [`docs/workflow.md`](docs/workflow.md): complete stage flow, execution gates, and task progress rules.
 - [`docs/artifact-contract.md`](docs/artifact-contract.md): planning documents, evidence directories, and regression artifact contracts.
 - [`docs/agent-protocol.md`](docs/agent-protocol.md): single-agent, multi-agent, browser execution, and diagnostic escalation rules.
+
+## Update The Complete Skill Suite
+
+> [!TIP]
+> **Complete Skill-suite updates are available starting with v0.1.2.** There is no fixed command to memorize and no need to run the internal updater manually. Express an Easy PRD Testing update intent to the AI instead. See the [v0.1.2 release notes](docs/releases/v0.1.2.md).
+
+For example:
+
+```text
+Update this version
+Check whether these Skills have an update
+Bring the Easy PRD Testing plugin up to date
+```
+
+The parent skill routes clear version-update intent to `self-update` even when `$self-update` is not named exactly. If “update” could mean the test environment, product version, or test cases, the AI confirms the target first and does not modify this Skill suite.
+
+### How The AI Performs An Update
+
+1. **Check without changing files**: Identify the current installation path, installation type, and version, then query the latest stable Release.
+2. **Present the change**: Show the current and target versions, installation path, and 3–5 release highlights.
+3. **Ask once**: When an update is available, ask once for confirmation. No files change without explicit approval.
+4. **Verify the download**: Download the standard Release Asset and verify it against the SHA-256 digest provided by GitHub. Users of the public repository do not need to sign in to GitHub or configure GitHub CLI.
+5. **Validate in a temporary directory**: Extract safely, verify the complete managed-file manifest, and run repository validation before switching the installation.
+6. **Switch the installation**: Replace the old version only after validation and prompt the user to reload the Skills or Plugin. Pre-switch failures leave the original installation untouched; switch-stage failures attempt to restore it.
+
+The updater follows only the latest stable GitHub Release. It never updates from `main`, draft Releases, or prereleases. A normal update does not prompt at every step, and the updater never installs a missing Node.js runtime automatically.
+
+### Supported Installation Types
+
+| Current installation | Update behavior |
+| --- | --- |
+| AI-installed or copied managed installation | Verifies managed files and switches transactionally; local modifications require separate, explicit acceptance of permanent overwrite |
+| Git clone of the official repository | Requires the official `origin` and a clean worktree; checks out the exact stable Tag after updating |
+| Git worktree with uncommitted changes | Refuses to update and provides no force-overwrite path |
+| Symlink, incomplete installation, or Git repository from an unknown origin | Stops safely and explains why instead of guessing or falling back to another update method |
+
+### Update Boundaries
+
+- Node.js 18 or later is required. Missing dependencies are reported, never installed automatically.
+- Only the installation used by the current session is updated; copies belonging to other AI tools are not scanned.
+- There are no background startup checks and no telemetry.
+- Updates do not run during execution-gate, test-execution, result-aggregation, or regression-testing work.
+- Successful updates do not keep historical rollback copies; failed updates leave the original installation in place or restore it.
+- After success, start a new AI session or reload the current tool's Skills or Plugin so the new instructions take full effect.
+
+### Migrating From `v0.1.1` Or Earlier
+
+Older versions do not contain `self-update`. Give the following one-time migration prompt to your AI:
+
+```text
+Reinstall the latest stable Easy PRD Testing release from https://github.com/dszblackmagic/easy-prd-testing and replace the current installation. Check for local modifications and report them before replacement, then run scripts/validate-plugin.sh after installation. If Node.js 18 or another dependency is missing, tell me how to install it but do not install it automatically. Finally, report the installation path and version.
+```
+
+Future releases can use the natural-language update flow above after this migration.
 
 ## License
 
