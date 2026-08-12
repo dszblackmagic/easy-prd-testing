@@ -31,15 +31,20 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { gunzipSync } from 'node:zlib';
 
-export const UPDATER_VERSION = '0.1.2';
+export const UPDATER_VERSION = '0.1.3';
 export const UPDATE_SCHEMA_VERSION = 1;
 export const PACKAGE_SCHEMA_VERSION = 1;
 export const PACKAGE_ROOT = 'easy-prd-testing';
 export const PACKAGE_MANIFEST = '.easy-prd-testing-manifest.json';
 export const LATEST_MANIFEST_URL =
-    'https://github.com/dszblackmagic/easy-prd-testing/releases/latest/download/latest.json';
+    'https://github.com/CoffeeCheese/easy-prd-testing/releases/latest/download/latest-v2.json';
 
-const OFFICIAL_REPOSITORY = 'dszblackmagic/easy-prd-testing';
+const OFFICIAL_REPOSITORY = 'CoffeeCheese/easy-prd-testing';
+// Keep the legacy repository trusted so v0.1.2 manifests and clones can migrate safely.
+const LEGACY_REPOSITORY = 'dszblackmagic/easy-prd-testing';
+const TRUSTED_REPOSITORIES = [OFFICIAL_REPOSITORY, LEGACY_REPOSITORY];
+const LEGACY_LATEST_MANIFEST_URL =
+    'https://github.com/dszblackmagic/easy-prd-testing/releases/latest/download/latest.json';
 const MAX_MANIFEST_BYTES = 1024 * 1024;
 const MAX_ARCHIVE_BYTES = 50 * 1024 * 1024;
 const MAX_EXTRACTED_BYTES = 100 * 1024 * 1024;
@@ -117,8 +122,8 @@ function validateDigest(value) {
     return value;
 }
 
-function expectedReleasePrefix(version) {
-    return `https://github.com/${OFFICIAL_REPOSITORY}/releases/download/v${version}/`;
+function expectedReleasePrefix(repository, version) {
+    return `https://github.com/${repository}/releases/download/v${version}/`;
 }
 
 export function validateUpdateManifest(input, options = {}) {
@@ -155,7 +160,10 @@ export function validateUpdateManifest(input, options = {}) {
     }
 
     if (!options.allowTestUrls) {
-        if (!downloadUrl.startsWith(expectedReleasePrefix(version)) || !downloadUrl.endsWith(`/${name}`)) {
+        const trustedDownload = TRUSTED_REPOSITORIES.some(
+            (repository) => downloadUrl === `${expectedReleasePrefix(repository, version)}${name}`,
+        );
+        if (!trustedDownload) {
             throw new UpdateError('untrusted-download-url', `Untrusted release asset URL: ${downloadUrl}`);
         }
     }
@@ -165,10 +173,10 @@ export function validateUpdateManifest(input, options = {}) {
         'invalid-manifest',
         'Release notes URL is missing.',
     );
-    if (
-        !options.allowTestUrls &&
-        releaseNotesUrl !== `https://github.com/${OFFICIAL_REPOSITORY}/releases/tag/v${version}`
-    ) {
+    const trustedReleaseNotes = TRUSTED_REPOSITORIES.some(
+        (repository) => releaseNotesUrl === `https://github.com/${repository}/releases/tag/v${version}`,
+    );
+    if (!options.allowTestUrls && !trustedReleaseNotes) {
         throw new UpdateError('untrusted-release-notes-url', `Untrusted release notes URL: ${releaseNotesUrl}`);
     }
 
@@ -406,10 +414,11 @@ async function getPluginVersion(root) {
 
 function normalizeOfficialRemote(value) {
     const remote = value.trim().replace(/\.git$/, '').replace(/\/$/, '');
-    return (
-        remote === `git@github.com:${OFFICIAL_REPOSITORY}` ||
-        remote === `https://github.com/${OFFICIAL_REPOSITORY}` ||
-        remote === `ssh://git@github.com/${OFFICIAL_REPOSITORY}`
+    return TRUSTED_REPOSITORIES.some(
+        (repository) =>
+            remote === `git@github.com:${repository}` ||
+            remote === `https://github.com/${repository}` ||
+            remote === `ssh://git@github.com/${repository}`,
     );
 }
 
@@ -553,6 +562,21 @@ async function fetchUpdateManifest(url, options = {}) {
     return validateUpdateManifest(parsed, options);
 }
 
+async function fetchDefaultUpdateManifest(options = {}, targetVersion = null) {
+    const currentUrl = targetVersion
+        ? `https://github.com/${OFFICIAL_REPOSITORY}/releases/download/v${targetVersion}/latest-v2.json`
+        : LATEST_MANIFEST_URL;
+    try {
+        return await fetchUpdateManifest(currentUrl, options);
+    } catch (error) {
+        if (error?.code !== 'download-failed') throw error;
+        const legacyUrl = targetVersion
+            ? `https://github.com/${LEGACY_REPOSITORY}/releases/download/v${targetVersion}/latest.json`
+            : LEGACY_LATEST_MANIFEST_URL;
+        return fetchUpdateManifest(legacyUrl, options);
+    }
+}
+
 function runtimeCompatibility(manifest) {
     const nodeVersion = parseSemver(process.versions.node).raw;
     if (compareSemver(nodeVersion, manifest.minimumNodeVersion) < 0) {
@@ -583,7 +607,9 @@ export async function checkForUpdate(options = {}) {
         presentedRoot: options.presentedRoot,
         allowTestGitOrigin: options.allowTestGitOrigin,
     });
-    const manifest = await fetchUpdateManifest(options.manifestUrl ?? LATEST_MANIFEST_URL, options);
+    const manifest = options.manifestUrl
+        ? await fetchUpdateManifest(options.manifestUrl, options)
+        : await fetchDefaultUpdateManifest(options);
     const compatibility = runtimeCompatibility(manifest);
     const comparison = compareSemver(installation.version, manifest.version);
 
@@ -1031,9 +1057,9 @@ export async function performUpgrade(options = {}) {
         throw new UpdateError('local-modifications', 'Managed installation contains local modifications.', installation.changes);
     }
 
-    const immutableManifestUrl = options.manifestUrl ??
-        `https://github.com/${OFFICIAL_REPOSITORY}/releases/download/v${targetVersion}/latest.json`;
-    const manifest = await fetchUpdateManifest(immutableManifestUrl, options);
+    const manifest = options.manifestUrl
+        ? await fetchUpdateManifest(options.manifestUrl, options)
+        : await fetchDefaultUpdateManifest(options, targetVersion);
     if (manifest.version !== targetVersion || manifest.asset.digest !== expectedDigest) {
         throw new UpdateError(
             'confirmed-release-changed',

@@ -32,7 +32,7 @@ import {
     performUpgrade,
     validateUpdateManifest,
 } from './easy-prd-testing.mjs';
-import { buildReleasePackage } from './build-release.mjs';
+import { buildLatestManifest, buildReleasePackage } from './build-release.mjs';
 
 const execFileAsync = promisify(execFile);
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -128,16 +128,16 @@ async function syncGitIndexModes(root) {
 function updateManifest(baseUrl, archive, metadata) {
     return {
         schemaVersion: 1,
-        version: '0.1.2',
+        version: '0.1.3',
         channel: 'stable',
         minimumUpdaterVersion: '0.1.2',
         minimumNodeVersion: '18.0.0',
         requiresManualMigration: false,
         asset: {
-            name: 'easy-prd-testing-v0.1.2.tar.gz',
+            name: 'easy-prd-testing-v0.1.3.tar.gz',
             size: archive.length,
             digest: digest(archive),
-            downloadUrl: `${baseUrl}/easy-prd-testing-v0.1.2.tar.gz`,
+            downloadUrl: `${baseUrl}/easy-prd-testing-v0.1.3.tar.gz`,
         },
         releaseNotesUrl: `${baseUrl}/release-notes`,
         highlights: metadata.highlights,
@@ -179,15 +179,15 @@ async function expectUpdateError(action, code) {
 }
 
 async function run() {
-    assert.equal(compareSemver('0.1.1', '0.1.2'), -1);
-    assert.equal(compareSemver('v0.1.2', '0.1.2'), 0);
-    assert.equal(compareSemver('0.2.0', '0.1.2'), 1);
+    assert.equal(compareSemver('0.1.2', '0.1.3'), -1);
+    assert.equal(compareSemver('v0.1.3', '0.1.3'), 0);
+    assert.equal(compareSemver('0.2.0', '0.1.3'), 1);
 
     const buildRoot = await temporaryDirectory('build');
     const build = await buildReleasePackage({
         root: repositoryRoot,
         outputDir: buildRoot,
-        tag: 'v0.1.2',
+        tag: 'v0.1.3',
         includeUntracked: true,
     });
     const archive = await readFile(build.assetPath);
@@ -201,13 +201,24 @@ async function run() {
     const secondBuild = await buildReleasePackage({
         root: repositoryRoot,
         outputDir: secondBuildRoot,
-        tag: 'v0.1.2',
+        tag: 'v0.1.3',
         includeUntracked: true,
     });
     assert.equal(secondBuild.metadata.localDigest, build.metadata.localDigest);
 
+    const manifests = await buildLatestManifest({
+        outputDir: buildRoot,
+        metadata: build.metadataPath,
+        assetDigest: build.metadata.localDigest,
+        assetSize: build.metadata.assetSize,
+    });
+    assert.match(manifests.manifest.asset.downloadUrl, /github\.com\/CoffeeCheese\/easy-prd-testing/);
+    assert.match(manifests.legacyManifest.asset.downloadUrl, /github\.com\/dszblackmagic\/easy-prd-testing/);
+    assert.equal(JSON.parse(await readFile(manifests.outputPath, 'utf8')).version, '0.1.3');
+    assert.equal(JSON.parse(await readFile(manifests.legacyOutputPath, 'utf8')).version, '0.1.3');
+
     const extractedRoot = await extractFixture(archive, 'extract');
-    assert.equal(JSON.parse(await readFile(join(extractedRoot, '.codex-plugin', 'plugin.json'))).version, '0.1.2');
+    assert.equal(JSON.parse(await readFile(join(extractedRoot, '.codex-plugin', 'plugin.json'))).version, '0.1.3');
     assert.ok((await lstat(join(extractedRoot, PACKAGE_MANIFEST))).isFile());
 
     await expectUpdateError(async () => {
@@ -223,14 +234,32 @@ async function run() {
     );
 
     const sampleManifest = updateManifest('http://127.0.0.1:1', archive, build.metadata);
-    assert.equal(validateUpdateManifest(sampleManifest, { allowTestUrls: true }).version, '0.1.2');
+    assert.equal(validateUpdateManifest(sampleManifest, { allowTestUrls: true }).version, '0.1.3');
+    const officialManifest = {
+        ...sampleManifest,
+        asset: {
+            ...sampleManifest.asset,
+            downloadUrl: 'https://github.com/CoffeeCheese/easy-prd-testing/releases/download/v0.1.3/easy-prd-testing-v0.1.3.tar.gz',
+        },
+        releaseNotesUrl: 'https://github.com/CoffeeCheese/easy-prd-testing/releases/tag/v0.1.3',
+    };
+    assert.equal(validateUpdateManifest(officialManifest).version, '0.1.3');
+    const legacyManifest = {
+        ...officialManifest,
+        asset: {
+            ...officialManifest.asset,
+            downloadUrl: 'https://github.com/dszblackmagic/easy-prd-testing/releases/download/v0.1.3/easy-prd-testing-v0.1.3.tar.gz',
+        },
+        releaseNotesUrl: 'https://github.com/dszblackmagic/easy-prd-testing/releases/tag/v0.1.3',
+    };
+    assert.equal(validateUpdateManifest(legacyManifest).version, '0.1.3');
     await expectUpdateError(
         async () => validateUpdateManifest({ ...sampleManifest, schemaVersion: 99 }, { allowTestUrls: true }),
         'unsupported-manifest-schema',
     );
 
     const managedRoot = await extractFixture(archive, 'managed-detect');
-    await rewriteManagedVersion(managedRoot, '0.1.1');
+    await rewriteManagedVersion(managedRoot, '0.1.2');
     assert.deepEqual((await detectInstallation(managedRoot)).changes, []);
     await writeFile(join(managedRoot, 'README.md'), 'locally modified\n');
     await writeFile(join(managedRoot, 'local.txt'), 'local\n');
@@ -250,7 +279,7 @@ async function run() {
     await releaseLock();
 
     const upgradeRoot = await extractFixture(archive, 'managed-upgrade');
-    await rewriteManagedVersion(upgradeRoot, '0.1.1');
+    await rewriteManagedVersion(upgradeRoot, '0.1.2');
     const server = await fixtureServer(archive, build.metadata);
     try {
         const manifestUrl = `${server.baseUrl}/latest.json`;
@@ -260,7 +289,7 @@ async function run() {
             allowTestUrls: true,
         });
         assert.equal(checked.status, 'update-available');
-        assert.equal(checked.currentVersion, '0.1.1');
+        assert.equal(checked.currentVersion, '0.1.2');
         const updated = await performUpgrade({
             root: upgradeRoot,
             manifestUrl,
@@ -271,14 +300,14 @@ async function run() {
             confirmed: true,
         });
         assert.equal(updated.status, 'updated');
-        assert.equal(updated.currentVersion, '0.1.2');
+        assert.equal(updated.currentVersion, '0.1.3');
         assert.equal(await realpath(updated.installPath), await realpath(upgradeRoot));
     } finally {
         await server.close();
     }
 
     const modifiedRoot = await extractFixture(archive, 'managed-force');
-    await rewriteManagedVersion(modifiedRoot, '0.1.1');
+    await rewriteManagedVersion(modifiedRoot, '0.1.2');
     await writeFile(join(modifiedRoot, 'local.txt'), 'remove after success\n');
     const forceServer = await fixtureServer(archive, build.metadata);
     try {
@@ -327,7 +356,7 @@ async function run() {
     }
 
     const failureRoot = await extractFixture(archive, 'managed-failure');
-    await rewriteManagedVersion(failureRoot, '0.1.1');
+    await rewriteManagedVersion(failureRoot, '0.1.2');
     const failureServer = await fixtureServer(archive, build.metadata, { corruptArchive: true });
     try {
         const manifestUrl = `${failureServer.baseUrl}/latest.json`;
@@ -344,7 +373,7 @@ async function run() {
             }),
             'asset-digest-mismatch',
         );
-        assert.equal(JSON.parse(await readFile(join(failureRoot, '.codex-plugin', 'plugin.json'))).version, '0.1.1');
+        assert.equal(JSON.parse(await readFile(join(failureRoot, '.codex-plugin', 'plugin.json'))).version, '0.1.2');
     } finally {
         await failureServer.close();
     }
@@ -358,26 +387,26 @@ async function run() {
     await command('git', ['init'], { cwd: sourceRoot });
     await command('git', ['config', 'user.name', 'Easy PRD Testing Tests'], { cwd: sourceRoot });
     await command('git', ['config', 'user.email', 'tests@example.invalid'], { cwd: sourceRoot });
-    await rewriteManagedVersion(sourceRoot, '0.1.1');
-    await command('git', ['add', '-A'], { cwd: sourceRoot });
-    await syncGitIndexModes(sourceRoot);
-    await command('git', ['commit', '-m', 'v0.1.1'], { cwd: sourceRoot });
-    await command('git', ['tag', 'v0.1.1'], { cwd: sourceRoot });
-    await cp(extractedRoot, sourceRoot, { recursive: true, force: true });
+    await rewriteManagedVersion(sourceRoot, '0.1.2');
     await command('git', ['add', '-A'], { cwd: sourceRoot });
     await syncGitIndexModes(sourceRoot);
     await command('git', ['commit', '-m', 'v0.1.2'], { cwd: sourceRoot });
     await command('git', ['tag', 'v0.1.2'], { cwd: sourceRoot });
+    await cp(extractedRoot, sourceRoot, { recursive: true, force: true });
+    await command('git', ['add', '-A'], { cwd: sourceRoot });
+    await syncGitIndexModes(sourceRoot);
+    await command('git', ['commit', '-m', 'v0.1.3'], { cwd: sourceRoot });
+    await command('git', ['tag', 'v0.1.3'], { cwd: sourceRoot });
     const cleanBuildRoot = await temporaryDirectory('clean-build');
     const cleanBuild = await buildReleasePackage({
         root: sourceRoot,
         outputDir: cleanBuildRoot,
-        tag: 'v0.1.2',
+        tag: 'v0.1.3',
     });
     assert.equal(cleanBuild.metadata.localDigest, build.metadata.localDigest);
     await command('git', ['remote', 'add', 'origin', bareRoot], { cwd: sourceRoot });
     await command('git', ['push', 'origin', '--tags', 'HEAD'], { cwd: sourceRoot });
-    await command('git', ['clone', '--branch', 'v0.1.1', bareRoot, gitInstall]);
+    await command('git', ['clone', '--branch', 'v0.1.2', bareRoot, gitInstall]);
 
     const gitServer = await fixtureServer(archive, build.metadata);
     try {
@@ -399,7 +428,7 @@ async function run() {
             expectedStateDigest: checked.localStateDigest,
             confirmed: true,
         });
-        assert.equal(updated.currentVersion, '0.1.2');
+        assert.equal(updated.currentVersion, '0.1.3');
         const branch = await command('git', ['symbolic-ref', '--quiet', '--short', 'HEAD'], { cwd: gitInstall }).catch(() => null);
         assert.equal(branch, null);
         await writeFile(join(gitInstall, 'dirty.txt'), 'dirty\n');

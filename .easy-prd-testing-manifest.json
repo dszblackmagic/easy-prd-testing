@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "rootDirectory": "easy-prd-testing",
   "files": [
     {
       "path": ".codex-plugin/plugin.json",
-      "digest": "sha256:1d3ec9e4d1d806590c92759a2cba20a189fc1976dc1a6d1c16600c14809bbdb4",
+      "digest": "sha256:528cd54a9d67008cfb3b968a5c2ea32addfc8ac4ef95902bb39ec1d98918e41c",
       "mode": "644"
     },
     {
@@ -15,7 +15,7 @@
     },
     {
       "path": ".github/workflows/release.yml",
-      "digest": "sha256:489220d924492268c0f7d29c772aa7d74a73be711ab71958712853d651526836",
+      "digest": "sha256:b9ea7d42196d12b9345064066298fd37108d65e7372adf9b1d487cd334ea6ca8",
       "mode": "644"
     },
     {
@@ -44,6 +44,11 @@
       "mode": "644"
     },
     {
+      "path": "docs/releases/v0.1.3.md",
+      "digest": "sha256:51b87a8b58612ada031392030139910ed06e716419620a30be248b05fc94662d",
+      "mode": "644"
+    },
+    {
       "path": "docs/workflow.md",
       "digest": "sha256:7ba067936f16bc7ea45b3dca431e67368508ddfd0bfd190f9ee6fe3fd82849ad",
       "mode": "644"
@@ -55,17 +60,17 @@
     },
     {
       "path": "README.en.md",
-      "digest": "sha256:d189e7a0ee6c0bbad85b578f4fad01cb5c59fabffd6579de877c9a2a4d1ac607",
+      "digest": "sha256:039e708da2ad4b73b7c26807f587f91d074419f0439a3e718d9c4fbb0ce4c204",
       "mode": "644"
     },
     {
       "path": "README.md",
-      "digest": "sha256:8f6d3f899c9839fd145b2a0e3483092ee9aed136496ff380c77c961173623e1a",
+      "digest": "sha256:e49f713777c1f1a2d86576d0ea58bc6714cde81d4c183a01ebfe91e66b79cbbc",
       "mode": "644"
     },
     {
       "path": "scripts/build-release.mjs",
-      "digest": "sha256:3e6d7404104de0ed528b8d89c1e55f34fb89a1632bc4eaa1b8e8733aaa80bc5b",
+      "digest": "sha256:301fac58ee9d3b2232502c52dd311af55752e15631a0a197a8679451ad690213",
       "mode": "644"
     },
     {
@@ -75,7 +80,7 @@
     },
     {
       "path": "scripts/easy-prd-testing.mjs",
-      "digest": "sha256:d89d27ce37f76669a705f8d4913f3a76c9d81e2b8f61ee86020915105c3e0b3d",
+      "digest": "sha256:162e45d7f15ea97ef0347616482e8aef84d4d6a6d1cbc54bc28ab45e6905d3cf",
       "mode": "644"
     },
     {
@@ -85,7 +90,7 @@
     },
     {
       "path": "scripts/test-self-update.mjs",
-      "digest": "sha256:c345ffa25a6067e681e4cdbd9d2cad87a80bbe678f129c32adeef772d2552fb7",
+      "digest": "sha256:266f77d8530629329e5709acbda2f4955ed5363a5ade8feb692383337e1b796b",
       "mode": "644"
     },
     {

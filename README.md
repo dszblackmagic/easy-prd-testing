@@ -9,7 +9,7 @@
 <p>📄 资料&nbsp; → &nbsp;🔎 澄清&nbsp; → &nbsp;🧠 规划&nbsp; → &nbsp;🧪 执行&nbsp; → &nbsp;📦 证据&nbsp; → &nbsp;✅ 回归</p>
 
 <p>
-  <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
+  <a href="https://github.com/CoffeeCheese/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/CoffeeCheese/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
   <img alt="Agent Skills: 9" src="https://img.shields.io/badge/agent_skills-9-58a6ff?style=flat-square">
   <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
@@ -58,7 +58,7 @@ Easy PRD Testing 是一套面向 AI 编码工具的 PRD / 原型驱动自动化�
 
 ```text
 请安装并配置整个 Easy PRD Testing 仓库：
-https://github.com/dszblackmagic/easy-prd-testing
+https://github.com/CoffeeCheese/easy-prd-testing
 
 请先识别当前 AI 编码工具支持的 Skill 或 Plugin 机制，再按该工具的官方约定完成安装。保留仓库根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/ 下的全部阶段 Skills、模板和 scripts/，不要只复制单个 Skill，也不要遗漏隐藏文件。检测到同名旧版本时，覆盖或迁移前先征得我的确认。安装后运行 scripts/validate-plugin.sh；如果缺少依赖，只告诉我安装方法，不要自动安装。最后告诉我安装位置、采用的安装形态，以及如何启动完整测试流程。
 ```
@@ -68,7 +68,7 @@ https://github.com/dszblackmagic/easy-prd-testing
 适合希望直接通过 `$easy-prd-testing` 使用完整流程的用户：
 
 ```text
-$skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装 easy-prd-testing。使用仓库根目录 "." 作为 Skill，保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/、模板和 scripts/ 的完整目录结构，不要遗漏隐藏文件。检测到同名安装时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。完成后告诉我安装位置，并确认可以通过 $easy-prd-testing 启动。
+$skill-installer 请从 https://github.com/CoffeeCheese/easy-prd-testing 安装 easy-prd-testing。使用仓库根目录 "." 作为 Skill，保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/、模板和 scripts/ 的完整目录结构，不要遗漏隐藏文件。检测到同名安装时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。完成后告诉我安装位置，并确认可以通过 $easy-prd-testing 启动。
 ```
 
 ### Codex：安装为 Plugin
@@ -76,13 +76,13 @@ $skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装
 适合希望通过 Codex Plugin 载入全部阶段 Skills 的用户：
 
 ```text
-请把 https://github.com/dszblackmagic/easy-prd-testing 安装为完整 Codex Plugin。请保留 .easy-prd-testing-manifest.json、.codex-plugin/plugin.json、skills/、模板和 scripts/，不要遗漏隐藏文件，并按照当前 Codex 的本地 Plugin 与 marketplace 约定完成配置和安装。检测到同名 Plugin 时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh，并用 Codex 的插件列表确认 easy-prd-testing 可见。缺少依赖时只提示，不要自动安装。最后告诉我安装位置和启动方式。
+请把 https://github.com/CoffeeCheese/easy-prd-testing 安装为完整 Codex Plugin。请保留 .easy-prd-testing-manifest.json、.codex-plugin/plugin.json、skills/、模板和 scripts/，不要遗漏隐藏文件，并按照当前 Codex 的本地 Plugin 与 marketplace 约定完成配置和安装。检测到同名 Plugin 时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh，并用 Codex 的插件列表确认 easy-prd-testing 可见。缺少依赖时只提示，不要自动安装。最后告诉我安装位置和启动方式。
 ```
 
 ### Claude Code：安装整套 Skills
 
 ```text
-请把 https://github.com/dszblackmagic/easy-prd-testing 安装到当前 Claude Code 环境，使用 Claude Code 当前支持的 Agent Skills 目录和加载约定。请安装整个仓库并保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/ 下的全部阶段 Skills、模板和 scripts/，不要遗漏隐藏文件，确保父 Skill 能继续读取相对路径中的阶段说明。检测到同名旧版本时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。最后告诉我安装位置，以及如何调用 easy-prd-testing。
+请把 https://github.com/CoffeeCheese/easy-prd-testing 安装到当前 Claude Code 环境，使用 Claude Code 当前支持的 Agent Skills 目录和加载约定。请安装整个仓库并保留根 SKILL.md、.easy-prd-testing-manifest.json、.codex-plugin/、skills/ 下的全部阶段 Skills、模板和 scripts/，不要遗漏隐藏文件，确保父 Skill 能继续读取相对路径中的阶段说明。检测到同名旧版本时先询问我，不要直接覆盖。安装后运行 scripts/validate-plugin.sh；缺少依赖时只提示，不要自动安装。最后告诉我安装位置，以及如何调用 easy-prd-testing。
 ```
 
 ### 其他支持 `SKILL.md` 的工具
@@ -95,7 +95,7 @@ $skill-installer 请从 https://github.com/dszblackmagic/easy-prd-testing 安装
 <summary>手动下载和验证</summary>
 
 ```bash
-git clone https://github.com/dszblackmagic/easy-prd-testing.git
+git clone https://github.com/CoffeeCheese/easy-prd-testing.git
 cd easy-prd-testing
 scripts/validate-plugin.sh
 ```
@@ -262,7 +262,7 @@ $easy-prd-testing 请根据 /path/to/订单管理-PRD.md，为订单管理模块
 旧版本还没有 `self-update`，需要先把下面这段话交给 AI 完成一次重新安装：
 
 ```text
-请从 https://github.com/dszblackmagic/easy-prd-testing 重新安装最新稳定版，替换当前 Easy PRD Testing 安装。替换前检查并告知我是否存在本地修改，安装后运行 scripts/validate-plugin.sh；如果缺少 Node.js 18 或其他依赖，只告诉我安装方法，不要自动安装。完成后告诉我安装位置和版本。
+请从 https://github.com/CoffeeCheese/easy-prd-testing 重新安装最新稳定版，替换当前 Easy PRD Testing 安装。替换前检查并告知我是否存在本地修改，安装后运行 scripts/validate-plugin.sh；如果缺少 Node.js 18 或其他依赖，只告诉我安装方法，不要自动安装。完成后告诉我安装位置和版本。
 ```
 
 完成这次迁移后，后续版本即可使用上面的自然语言升级方式。
@@ -273,9 +273,9 @@ MIT
 
 ## 感谢与参与
 
-感谢你试用 Easy PRD Testing。如果这套流程对你有帮助，欢迎为项目点一个 [Star](https://github.com/dszblackmagic/easy-prd-testing)。
+感谢你试用 Easy PRD Testing。如果这套流程对你有帮助，欢迎为项目点一个 [Star](https://github.com/CoffeeCheese/easy-prd-testing)。
 
-遇到问题或有改进建议，欢迎提交 [GitHub Issue](https://github.com/dszblackmagic/easy-prd-testing/issues)。尤其期待以下反馈：
+遇到问题或有改进建议，欢迎提交 [GitHub Issue](https://github.com/CoffeeCheese/easy-prd-testing/issues)。尤其期待以下反馈：
 
 - 不同 AI 编码工具的安装与调用兼容性。
 - 从 PRD 到测试执行过程中缺失或不合理的节点。

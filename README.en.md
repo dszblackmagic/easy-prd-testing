@@ -9,7 +9,7 @@
 <p>📄 Intake&nbsp; → &nbsp;🔎 Clarify&nbsp; → &nbsp;🧠 Plan&nbsp; → &nbsp;🧪 Test&nbsp; → &nbsp;📦 Evidence&nbsp; → &nbsp;✅ Regress</p>
 
 <p>
-  <a href="https://github.com/dszblackmagic/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dszblackmagic/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
+  <a href="https://github.com/CoffeeCheese/easy-prd-testing/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/CoffeeCheese/easy-prd-testing?style=flat-square&amp;label=release&amp;color=ff6b81"></a>
   <img alt="Agent Skills: 9" src="https://img.shields.io/badge/agent_skills-9-58a6ff?style=flat-square">
   <img alt="Codex Plugin ready" src="https://img.shields.io/badge/Codex_Plugin-ready-5ac8a8?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-f6c453?style=flat-square"></a>
@@ -58,7 +58,7 @@ Copy the prompt that matches your current tool and give it to the AI. The instal
 
 ```text
 Install and configure the complete Easy PRD Testing repository:
-https://github.com/dszblackmagic/easy-prd-testing
+https://github.com/CoffeeCheese/easy-prd-testing
 
 First identify the Skill or Plugin mechanism supported by the current AI coding tool, then install the repository according to that tool's official conventions. Preserve the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, every stage skill under skills/, all templates, and scripts/; do not copy only one skill or omit hidden files. If an installation with the same name already exists, ask me before replacing or migrating it. Run scripts/validate-plugin.sh after installation. If a dependency is missing, tell me how to install it but do not install it automatically. Finally, report the install location, install type, and how to start the complete testing workflow.
 ```
@@ -68,7 +68,7 @@ First identify the Skill or Plugin mechanism supported by the current AI coding 
 Use this option when you want to start the complete workflow directly through `$easy-prd-testing`:
 
 ```text
-$skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/easy-prd-testing. Use the repository root path "." as the skill and preserve the complete structure containing the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, skills/, templates, and scripts/ without omitting hidden files. If an installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. When finished, tell me the install location and confirm that I can start it with $easy-prd-testing.
+$skill-installer Install easy-prd-testing from https://github.com/CoffeeCheese/easy-prd-testing. Use the repository root path "." as the skill and preserve the complete structure containing the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, skills/, templates, and scripts/ without omitting hidden files. If an installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. When finished, tell me the install location and confirm that I can start it with $easy-prd-testing.
 ```
 
 ### Codex: Install As A Plugin
@@ -76,13 +76,13 @@ $skill-installer Install easy-prd-testing from https://github.com/dszblackmagic/
 Use this option when you want Codex Plugin loading for all stage skills:
 
 ```text
-Install https://github.com/dszblackmagic/easy-prd-testing as a complete Codex Plugin. Preserve .easy-prd-testing-manifest.json, .codex-plugin/plugin.json, skills/, templates, and scripts/ without omitting hidden files, then configure and install it according to the current Codex local Plugin and marketplace conventions. If a Plugin with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation and confirm that easy-prd-testing appears in the Codex plugin list. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to start the workflow.
+Install https://github.com/CoffeeCheese/easy-prd-testing as a complete Codex Plugin. Preserve .easy-prd-testing-manifest.json, .codex-plugin/plugin.json, skills/, templates, and scripts/ without omitting hidden files, then configure and install it according to the current Codex local Plugin and marketplace conventions. If a Plugin with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation and confirm that easy-prd-testing appears in the Codex plugin list. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to start the workflow.
 ```
 
 ### Claude Code: Install The Complete Skill Suite
 
 ```text
-Install https://github.com/dszblackmagic/easy-prd-testing in the current Claude Code environment using Claude Code's currently supported Agent Skills directory and loading conventions. Install the complete repository and preserve the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, every stage skill under skills/, all templates, and scripts/ without omitting hidden files so the parent skill can continue to read stage instructions through their relative paths. If an older installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to invoke easy-prd-testing.
+Install https://github.com/CoffeeCheese/easy-prd-testing in the current Claude Code environment using Claude Code's currently supported Agent Skills directory and loading conventions. Install the complete repository and preserve the root SKILL.md, .easy-prd-testing-manifest.json, .codex-plugin/, every stage skill under skills/, all templates, and scripts/ without omitting hidden files so the parent skill can continue to read stage instructions through their relative paths. If an older installation with the same name exists, ask me before replacing it. Run scripts/validate-plugin.sh after installation. Report missing dependencies without installing them automatically. Finally, tell me the install location and how to invoke easy-prd-testing.
 ```
 
 ### Other Tools With `SKILL.md` Support
@@ -95,7 +95,7 @@ The complete workflow requires an AI coding environment that can read local file
 <summary>Manual download and validation</summary>
 
 ```bash
-git clone https://github.com/dszblackmagic/easy-prd-testing.git
+git clone https://github.com/CoffeeCheese/easy-prd-testing.git
 cd easy-prd-testing
 scripts/validate-plugin.sh
 ```
@@ -262,7 +262,7 @@ The updater follows only the latest stable GitHub Release. It never updates from
 Older versions do not contain `self-update`. Give the following one-time migration prompt to your AI:
 
 ```text
-Reinstall the latest stable Easy PRD Testing release from https://github.com/dszblackmagic/easy-prd-testing and replace the current installation. Check for local modifications and report them before replacement, then run scripts/validate-plugin.sh after installation. If Node.js 18 or another dependency is missing, tell me how to install it but do not install it automatically. Finally, report the installation path and version.
+Reinstall the latest stable Easy PRD Testing release from https://github.com/CoffeeCheese/easy-prd-testing and replace the current installation. Check for local modifications and report them before replacement, then run scripts/validate-plugin.sh after installation. If Node.js 18 or another dependency is missing, tell me how to install it but do not install it automatically. Finally, report the installation path and version.
 ```
 
 Future releases can use the natural-language update flow above after this migration.
@@ -273,9 +273,9 @@ MIT
 
 ## Thanks And Participation
 
-Thank you for trying Easy PRD Testing. If the workflow helps you, consider giving the project a [Star](https://github.com/dszblackmagic/easy-prd-testing).
+Thank you for trying Easy PRD Testing. If the workflow helps you, consider giving the project a [Star](https://github.com/CoffeeCheese/easy-prd-testing).
 
-If you encounter a problem or have an improvement idea, please open a [GitHub Issue](https://github.com/dszblackmagic/easy-prd-testing/issues). Feedback is especially welcome on:
+If you encounter a problem or have an improvement idea, please open a [GitHub Issue](https://github.com/CoffeeCheese/easy-prd-testing/issues). Feedback is especially welcome on:
 
 - Installation and invocation compatibility across AI coding tools.
 - Missing or awkward steps between PRD intake and test execution.

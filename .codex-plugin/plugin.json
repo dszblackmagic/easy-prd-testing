@@ -1,12 +1,12 @@
 {
   "name": "easy-prd-testing",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "PRD and prototype driven automation self-testing workflow with safe full-suite updates for Codex.",
   "author": {
     "name": "Easy PRD Testing contributors"
   },
-  "homepage": "https://github.com/dszblackmagic/easy-prd-testing",
-  "repository": "https://github.com/dszblackmagic/easy-prd-testing",
+  "homepage": "https://github.com/CoffeeCheese/easy-prd-testing",
+  "repository": "https://github.com/CoffeeCheese/easy-prd-testing",
   "license": "MIT",
   "keywords": [
     "prd",

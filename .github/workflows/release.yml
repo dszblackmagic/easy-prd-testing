@@ -133,7 +133,8 @@ jobs:
             --asset-digest "$ASSET_DIGEST" \
             --asset-size "$ASSET_SIZE" \
             --output-dir dist
-          gh release upload "$RELEASE_TAG" dist/latest.json \
+          # latest.json remains compatible with v0.1.2; latest-v2.json uses the renamed repository.
+          gh release upload "$RELEASE_TAG" dist/latest.json dist/latest-v2.json \
             --repo "$GITHUB_REPOSITORY" \
             --clobber
 
@@ -150,9 +151,10 @@ jobs:
             --jq '[.assets[].name] | sort | .[]' > dist/github-assets.txt
           grep -Fx "$asset_name" dist/github-assets.txt
           grep -Fx "latest.json" dist/github-assets.txt
+          grep -Fx "latest-v2.json" dist/github-assets.txt
           node -e '
             const fs = require("fs");
-            const manifest = JSON.parse(fs.readFileSync("dist/latest.json", "utf8"));
+            const manifest = JSON.parse(fs.readFileSync("dist/latest-v2.json", "utf8"));
             if (manifest.version !== process.env.RELEASE_TAG.replace(/^v/, "")) process.exit(1);
             if (manifest.asset.name !== `easy-prd-testing-${process.env.RELEASE_TAG}.tar.gz`) process.exit(1);
           '

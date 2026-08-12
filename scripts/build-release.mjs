@@ -11,7 +11,9 @@ const PACKAGE_SCHEMA_VERSION = 1;
 const UPDATE_SCHEMA_VERSION = 1;
 const PACKAGE_ROOT = 'easy-prd-testing';
 const PACKAGE_MANIFEST = '.easy-prd-testing-manifest.json';
-const REPOSITORY = 'dszblackmagic/easy-prd-testing';
+const REPOSITORY = 'CoffeeCheese/easy-prd-testing';
+// v0.1.2 clients only trust the pre-rename URL carried by latest.json.
+const LEGACY_REPOSITORY = 'dszblackmagic/easy-prd-testing';
 
 function fail(message) {
     throw new Error(message);
@@ -273,7 +275,7 @@ export async function buildLatestManifest(options) {
     const size = options.assetSize ?? metadata.assetSize;
     if (!Number.isSafeInteger(size) || size < 0) fail(`Invalid GitHub asset size: ${size}`);
 
-    const manifest = {
+    const createManifest = (repository) => ({
         schemaVersion: UPDATE_SCHEMA_VERSION,
         version,
         channel: 'stable',
@@ -284,15 +286,19 @@ export async function buildLatestManifest(options) {
             name: metadata.assetName,
             size,
             digest,
-            downloadUrl: `https://github.com/${REPOSITORY}/releases/download/${metadata.tag}/${metadata.assetName}`,
+            downloadUrl: `https://github.com/${repository}/releases/download/${metadata.tag}/${metadata.assetName}`,
         },
-        releaseNotesUrl: metadata.releaseNotesUrl,
+        releaseNotesUrl: `https://github.com/${repository}/releases/tag/${metadata.tag}`,
         highlights: metadata.highlights,
-    };
-    const outputPath = join(outputDir, 'latest.json');
+    });
+    const manifest = createManifest(REPOSITORY);
+    const legacyManifest = createManifest(LEGACY_REPOSITORY);
+    const outputPath = join(outputDir, 'latest-v2.json');
+    const legacyOutputPath = join(outputDir, 'latest.json');
     await mkdir(outputDir, { recursive: true });
     await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`);
-    return { outputPath, manifest };
+    await writeFile(legacyOutputPath, `${JSON.stringify(legacyManifest, null, 2)}\n`);
+    return { outputPath, legacyOutputPath, manifest, legacyManifest };
 }
 
 async function main() {
